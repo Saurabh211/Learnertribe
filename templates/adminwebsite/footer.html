@@ -1,0 +1,86 @@
+{% load static %}
+</div>
+<!-- Wrapper End -->
+<!-- Footer -->
+<footer class="bg-white iq-footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-6 text-right">
+                Copyright 2020 <a href="#">rental</a> All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer END -->
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{% static 'rental_admin/js/jquery.min.js' %}"></script>
+<script src="{% static 'rental_admin/js/popper.min.js' %}"></script>
+<script src="{% static 'rental_admin/js/bootstrap.min.js' %}"></script>
+<!-- Appear JavaScript -->
+<script src="{% static 'rental_admin/js/jquery.appear.js' %}"></script>
+<!-- Countdown JavaScript -->
+<script src="{% static 'rental_admin/js/countdown.min.js' %}"></script>
+<!-- Counterup JavaScript -->
+<script src="{% static 'rental_admin/js/waypoints.min.js' %}"></script>
+<script src="{% static 'rental_admin/js/jquery.counterup.min.js' %}"></script>
+<!-- Wow JavaScript -->
+<script src="{% static 'rental_admin/js/wow.min.js' %}"></script>
+<!-- Apexcharts JavaScript -->
+<script src="{% static 'rental_admin/js/apexcharts.js' %}"></script>
+<!-- Slick JavaScript -->
+<script src="{% static 'rental_admin/js/slick.min.js' %}"></script>
+<!-- Select2 JavaScript -->
+<script src="{% static 'rental_admin/js/select2.min.js' %}"></script>
+<!-- Owl Carousel JavaScript -->
+<script src="{% static 'rental_admin/js/owl.carousel.min.js' %}"></script>
+<!-- Magnific Popup JavaScript -->
+<script src="{% static 'rental_admin/js/jquery.magnific-popup.min.js' %}"></script>
+<!-- Smooth Scrollbar JavaScript -->
+<script src="{% static 'rental_admin/js/smooth-scrollbar.js' %}"></script>
+<!-- lottie JavaScript -->
+<script src="{% static 'rental_admin/js/lottie.js' %}"></script>
+<!-- Chart Custom JavaScript -->
+<script src="{% static 'rental_admin/js/chart-custom.js' %}"></script>
+<!-- Custom JavaScript -->
+<script src="{% static 'rental_admin/js/custom.js' %}"></script>
+</body>
+
+<script>
+    function user_delete(id) {
+        $.ajax({
+            type: 'GET',
+            url: '/rental_admin/user_delete/' + id + '/',
+            dataType: "json",
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
+
+    function user_update(id) {
+        var is_verified = $('#is_verified' + id).val()
+        $.ajax({
+            type: 'POST',
+            url: '/rental_admin/user_delete/' + id + '/',
+            data: {
+                'is_verified': is_verified,
+                "csrfmiddlewaretoken": '{{ csrf_token }}'
+            },
+            dataType: "json",
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
+</script>
+
+</html>

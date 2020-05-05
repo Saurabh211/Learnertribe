@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!-- viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- title -->
+    <title>Learner Tribe</title>
+    <!-- favicon -->
+    <!--    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico" />-->
+    <!-- keywords and description -->
+    <meta name="description" content="Enter text">
+    <meta name="keywords" content="Enter text">
+
+    <link href="{% static 'font/bree/stylesheet.css' %}" rel="stylesheet">
+    <link href="{% static 'font/myriad/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mdtimepicker.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mdtimepicker-theme.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+
+<body>
+    <header class="position-sticky-top">
+        <nav class="bg-white shadow">
+            <!--            mobile nav start-->
+            <div class="container d-lg-none" id="mobile_nav">
+                <div class="d-flex align-items-center py-2 py-md-3">
+                    <div class="logo">
+                        {% if not request.user.is_authenticated %}
+                        <a href="/" class="heading" style="font-size: 1.5rem">
+                            <img src="{% static 'img/logo/learnertribe_logo.png' %}" class="img mr-3" alt="LOGO">
+                        </a>
+                        {% else %}
+                        <a href="/" class="heading" style="font-size: 1.5rem">
+                            <img src="/{{request.user.institute.profile_image}}" class="img mr-3" alt="LOGO">
+                        </a>
+                        {% endif %}
+                    </div>
+                    <div class="ml-auto">
+<!--                        <a href="tel:+91-823-729-6036" class="icon call"></a>-->
+                    </div>
+                    <div class="mx-3">
+<!--                        <span class="icon noti active"></span>-->
+                    </div>
+                    <div id="hamburger" class="">
+                        <span class="slow-2x"></span>
+                    </div>
+                </div>
+                <div class="navigation slow-2x">
+                    <ul class="m-0 p-0">
+                            {% if not request.user.is_authenticated %}
+                            <li><a href="/auth/login/00000001/" class="d-flex align-items-center py-2 px-3"><span class="mr-3 icon login"></span>Login</a></li>
+                            <!--                        after auth-->
+                            {% else %}
+                            <li><a href="#" class="d-flex align-items-center py-2 px-3"><img src="{% static 'img/face.png' %}" class="icon img mr-3" alt="Ali Faysal"><strong>{{request.user}}</strong></a></li>
+
+                                {% if login_as == 'teacher' %}
+                                <li><a href="/teacher/dashboard/" class="d-block py-3 px-4">Dasboard</a></li>
+                                {% else %}
+                                <li><a href="/student/dashboard/" class="d-block py-3 px-4">Dasboard</a></li>
+                                {% endif %}
+                            <li><a href="/auth/logout/" class="d-block py-3 px-4">Logout</a></li>
+                            {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <!--            mobile nav end-->
+            <!--            desktop nav start-->
+            <div class="container d-none d-lg-block" id="desktop_nav">
+                <div class="row align-items-center pt-2">
+                    <div class="col-lg-3">
+                        <div class="logo" style="min-height: 70px;">
+                            {% if not request.user.is_authenticated %}
+                                <img src="{% static 'img/logo/learnertribe_logo.png' %}" class="img mr-3" alt="LOGO">
+                            {% else %}
+                                <img src="/{{request.user.institute.profile_image}}" class="img mr-3" alt="LOGO">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="upper-row d-flex py-2">
+                            <div class="ml-auto d-flex align-items-center">
+<!--                                <span class="icon call mr-1"></span> +91-823-729-6036-->
+                            </div>
+                            <div class="ml-3 ml-lg-4 d-flex align-items-center">
+<!--                                <span class="icon mail mr-1"></span><a href="mailto:info@learnertribe-app.com">info@learnertribe-app.com</a>-->
+                            </div>
+
+                            {% if not request.user.is_authenticated %}
+                            <a href="/auth/login/000001/" class="ml-3 ml-lg-4 d-flex align-items-center">
+                                <span class="icon login mr-1 mr-lg-2"></span><strong>Login</strong>
+                            </a>
+                            {% else %}
+                            <div class="ml-3 d-flex align-items-center">
+                                <!--                        after auth-->
+                                <a href="javascript:;" class="ml-3 d-flex align-items-center">
+                                    <img src="{% static 'img/face.png' %}" alt="{{request.user}}" class="icon img mr-2" />
+                                    <strong>{{request.user}}</strong>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if request.user.is_authenticated %}
+                        <ul class="m-0 p-0 nav-links d-flex justify-content-end">
+                            {% if login_as == 'teacher' %}
+                            <li><a href="/teacher/dashboard/" class="d-block py-3 px-4 active">Dasboard</a></li>
+                            {% else %}
+                            <li><a href="/student/dashboard/" class="d-block py-3 px-4 active">Dasboard</a></li>
+                            {% endif %}
+                            <li><a href="/auth/logout/" class="d-block py-3 px-4">Logout</a></li>
+<!--                            <li><a href="/page/contact-us/" class="d-block py-3 pl-4">Contact Us</a></li>-->
+                        </ul>
+                       {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!--            desktop nav end-->
+        </nav>
+    </header>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+

@@ -1,0 +1,143 @@
+{% load static %}
+{% include 'authuser/header.html' %}
+
+<html lang="en">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap Product List Carousel for Ecommerce Website</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+body {
+	background: #e2eaef;
+	font-family: "Open Sans", sans-serif;
+}
+h2 {
+	color: #000;
+    font-size: 24px;
+    font-weight: 300;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    margin: 20px 0 30px;
+}
+h2::after {
+	content: "";
+	width: 100px;
+	position: absolute;
+	margin: 0 auto;
+	height: 4px;
+	border-radius: 1px;
+	background: #7ac400;
+	left: 0;
+	right: 0;
+	bottom: -20px;
+}
+h2 b {
+    color: #ffc000;
+}
+.fixed-heigh-container{
+	min-height:700px !important;
+}
+
+</style>
+
+
+<div class="m-3 fixed-heigh-container">
+    <h2>MANAGE <b>VIDEOS</b></h2>
+
+    <ul class="nav nav-tabs">
+        <li class="new-video active"><a data-toggle="tab" onclick="changeTab('new-video');">Upload New Video</a></li>
+        <li class="videos-list"><a data-toggle="tab" onclick="changeTab('videos-list');">Manage Videos</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="new-video" class="tab-pane fade in active">
+            <div class="panel panel-default">
+                <!--            <div class="panel-heading">Existing Videos</div>-->
+                <div class="panel-body">
+                    <form class="col-lg-7 col-xl-8" method="post" action="/teacher/1/add_videos/">{% csrf_token %}
+                        <div class="input-group mb-4">
+                            <label class="form-label">Video Name</label>
+                            <input type="hidden" name="subject" value="{{subject}}" class="from-input" required/>
+                            <input type="hidden" name="id" value="{{subject.id}}" class="from-input" required/>
+                            <input type="text" name="video_name" placeholder="Video Name" class="from-input" required/>
+
+                            <!--   <label class="error">Enter only alphabets only</label>-->
+                        </div>
+                        <div class="input-group mb-4">
+                            <label class="form-label">Video URL</label>
+                            <input type="text" name="video_url" placeholder="Video URL" class="from-input" required/>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success rounded ml-auto" style="width: 100px;">Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="videos-list" class="tab-pane fade in">
+            <div class="panel panel-default">
+                <!--            <div class="panel-heading">Existing Videos</div>-->
+                <div class="panel-body">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Video Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for video in videos %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>
+                                <p>
+                                    <svg class="bi bi-camera-video-fill" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M2.667 3h6.666C10.253 3 11 3.746 11 4.667v6.666c0 .92-.746 1.667-1.667 1.667H2.667C1.747 13 1 12.254 1 11.333V4.667C1 3.747 1.746 3 2.667 3z"/>
+                                      <path d="M7.404 8.697l6.363 3.692c.54.313 1.233-.066 1.233-.697V4.308c0-.63-.693-1.01-1.233-.696L7.404 7.304a.802.802 0 000 1.393z"/>
+                                    </svg>
+                                    <span class="p-4">{{video.video_name}}</span>
+                                </p>
+                            </td>
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" class="alert alert-warning text-center" role="alert">
+                                 No videos are available in this directory.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function changeTab( tabId ){
+        if( tabId == 'new-video'){
+            $('li.videos-list').removeClass('active');
+            $('.tab-content #videos-list').removeClass('active');
+
+            $('li.new-video').addClass('active');
+            $('.tab-content #new-video').addClass('active');
+        }else if( tabId == 'videos-list'){
+            $('li.new-video').removeClass('active');
+            $('.tab-content #new-video').removeClass('active');
+
+            $('li.videos-list').addClass('active');
+            $('.tab-content #videos-list').addClass('active');
+        }
+    }
+
+</script>
+{% include 'authuser/footer.html' %}

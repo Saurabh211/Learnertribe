@@ -1,0 +1,87 @@
+{% load static %}
+
+<footer class="footer pt-2 pt-lg-4">
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-sm-6 col-md-4 col-lg-3 mb-3">-->
+<!--                <h4 class="logo"><img src="{% static 'img/logo_white.png' %}" class="img mr-3" alt="LOGO"></h4>-->
+<!--                <p class="mb-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry./p>-->
+<!--                    <ul class="m-0 p-0">-->
+<!--                        <li class="d-flex mb-4"><span class="footer-icon location"></span>Sheikh Mohammed bin Rashid Blvd - Dubai - UAE</li>-->
+<!--                        <li class="d-flex align-items-center mb-4"><span class="footer-icon call"></span>+971 4436 888</li>-->
+<!--                    </ul>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6 col-md-4 col-lg-3 mb-3">-->
+<!--                <h4 class="text-white mb-2">News & Event</h4>-->
+<!--                <ul class="m-0 p-0">-->
+<!--                    <li><a href="#" class="d-block py-md-1">Customer Stories</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Press Kits</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Production & Service</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Trade Show & Event</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6 col-md-4 col-lg-3 mb-3">-->
+<!--                <h4 class="text-white mb-2">How Can We Help?</h4>-->
+<!--                <ul class="m-0 p-0">-->
+<!--                    <li><a href="/page/contact-us/" class="d-block py-md-1">Contact Us</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Find Dealer</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Rental</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Shop Merchandise</a></li>-->
+<!--                    <li><a href="#" class="d-block py-md-1">Used</a></li>-->
+<!--                    <li><a href="/page/privacy-policy/" class="d-block py-md-1">Privacy</a></li>-->
+<!--                    <li><a href="/page/terms-conditions/" class="d-block py-md-1">Terms & Conditions</a></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <div class="col-sm-6 col-lg-3 mb-3">-->
+<!--                <h4 class="text-white mb-2">Social Media</h4>-->
+<!--                <p class="d-flex align-items-center social mb-3">-->
+<!--                    <a href="#" class="icon face mr-1"></a>-->
+<!--                    <a href="#" class="icon insta mx-1"></a>-->
+<!--                    <a href="#" class="icon twet mx-1"></a>-->
+<!--                    <a href="#" class="icon link mx-1"></a>-->
+<!--                    <a href="#" class="icon gmail mx-1"></a>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <p class="text-center m-0 py-4" style="background-color:#0b0b0b;"><small>Copyright © 2020 learnertribe.com.<br/> All Rights Reserved.</small> </p>
+</footer>
+</body>
+<!--    custom js from local-->
+<!--<script src="{% static 'js/main.js' %}"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="{% static 'js/form_validation.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/mdtimepicker.min.js' %}"></script>
+
+</html>
+
+<script>
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#start-date")
+            .datepicker({
+                autoUpdateInput: false,
+       //         defaultDate: "+1w",
+                  numberOfMonths: 1,
+                minDate: 0
+            })
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+
+            } catch (error) {
+                date = null;
+            }
+            return date
+        }
+    });
+</script>

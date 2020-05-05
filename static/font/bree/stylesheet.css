@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Bree Serif';
+    src: url('BreeSerif-Regular.woff2') format('woff2'),
+        url('BreeSerif-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+

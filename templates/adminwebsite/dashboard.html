@@ -1,0 +1,120 @@
+{% include 'adminwebsite/header.html' %}
+{% include 'adminwebsite/left_nav.html' %}
+
+<div id="content-page" class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-4">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+                    <div class="iq-card-body pb-0">
+                        <div class="rounded-circle iq-card-icon iq-bg-warning"><i class="ri-shopping-cart-line"></i></div>
+                        <span class="float-right line-height-6">Total Teacher</span>
+                        <div class="clearfix"></div>
+                        <div class="text-center">
+                            <h2 class="mb-0"><span class="counter">{{total_teacher_count}}</span><span></span></h2>
+                            <!--                                    <p class="mb-0 text-secondary line-height"><i class="ri-arrow-down-line text-danger mr-1"></i><span class="text-danger">10%</span> Increased</p>-->
+                        </div>
+                    </div>
+                    <div id="chart-2"></div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+                    <div class="iq-card-body pb-0">
+                        <div class="rounded-circle iq-card-icon iq-bg-success"><i class="ri-shopping-cart-line"></i></div>
+                        <span class="float-right line-height-6">Total Student</span>
+                        <div class="clearfix"></div>
+                        <div class="text-center">
+                            <h2 class="mb-0"><span class="counter">{{total_student_count}}</span><span></span></h2>
+                            <!--                                    <p class="mb-0 text-secondary line-height"><i class="ri-arrow-down-line text-danger mr-1"></i><span class="text-danger">10%</span> Increased</p>-->
+                        </div>
+                    </div>
+                    <div id="chart-3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                        <div class="iq-header-title">
+                            <h4 class="card-title">Acceptance Notifications </h4>
+                    <div class="iq-card-body">
+                        <ul class="nav nav-tabs mb-0" id="myTab-1" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Agent</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent-2">
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <div class="table-responsive" style="margin-top: -1px">
+                                    <div class="col-md-8 col-xl-9 profile-right">
+                    <div class="profile-section rounded bg-gray p-2 p-xl-4 mb-4 pb-3 mr-md-3 my-md-5 mx-2">
+                        <form class="form-style px-2" id="user" method="post" action="/admin/live_session/">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="input-group mb-4">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" name="full_name" minlength="5" id="full_name" maxlength="20" value="{{user_obj.full_name}}" class="from-input full_name" required="">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="input-group mb-4">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" name="email" id="email" value="{{user_obj.email}}" class="from-input" required="">
+                                    </div>
+                                </div>
+                                    <div class="col-md-5">
+                                    <div class="input-group mb-4">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" name="email" id="email" value="{{user_obj.email}}" class="from-input" required="">
+                                    </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group mb-4">
+                                                <label class="form-label">Company Name</label>
+                                                <input type="text" name="buisness" value="{{user_obj.buisness}}" class="from-input" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-12">
+                                    <div class="input-group mb-4">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="from-input" name="description" style="margin-top: 0px; margin-bottom: 5px; min-height: 70px; max-height: 70px;">{{user_obj.description}}</textarea>
+                                    </div>
+                                </div>
+
+                            <button onclick="save()" class="btn btn-success rounded ml-auto" style="width: 200px;">Save</button>
+                        </form>
+                    </div>
+                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%  include 'adminwebsite/footer.html' %}
+
+<script>
+    function user_update(id) {
+        var is_verified = $('#is_verified' + id).val()
+        $.ajax({
+            type: 'POST',
+            url: '/admin/user_detail/' + id + '/',
+            data: {
+                "csrfmiddlewaretoken": '{{ csrf_token }}'
+            },
+            dataType: "json",
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
+</script>

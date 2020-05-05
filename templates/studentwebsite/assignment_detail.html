@@ -1,0 +1,142 @@
+{% load static %}
+{% include 'authuser/header.html' %}
+
+<!--<html lang="en">-->
+<!--<meta charset="utf-8">-->
+<!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--<title>Bootstrap Product List Carousel for Ecommerce Website</title>-->
+<!--<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">-->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+<style type="text/css">
+body {
+	background: #e2eaef;
+	font-family: "Open Sans", sans-serif;
+}
+h2 {
+	color: #000;
+    font-size: 24px;
+    font-weight: 300;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    margin: 20px 0 30px;
+}
+h2::after {
+	content: "";
+	width: 100px;
+	position: absolute;
+	margin: 0 auto;
+	height: 4px;
+	border-radius: 1px;
+	background: #7ac400;
+	left: 0;
+	right: 0;
+	bottom: -20px;
+}
+h2 b {
+    color: #ffc000;
+}
+.fixed-heigh-container{
+	min-height:700px !important;
+}
+.btn {
+    padding: 2px 12px;
+}
+
+</style>
+
+<div class="m-3 fixed-heigh-container">
+    <h2>Assignment <b>Details</b></h2>
+
+    <ul class="nav nav-tabs">
+        <li class="new-video active"><a data-toggle="tab" onclick="changeTab('new-video');">Details</a></li>
+        <li class="videos-list"><a data-toggle="tab" onclick="changeTab('videos-list');">Upload Response</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="new-video" class="tab-pane fade in active">
+            <div class="panel panel-default">
+                <!--            <div class="panel-heading">Existing Videos</div>-->
+                <div class="panel-body">
+                    <div style="border:1px solid #DDD; border-radius:5px;">
+                        <table class="table table-striped">
+                            <tr>
+                                <td width="">Name</td>
+                                <td>{{assignment.assisment_name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Subject</td>
+                                <td>{{assignment.assisment_subject.subject_name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Teacher</td>
+                                <td>{{assignment.user.full_name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Discription</td>
+                                <td>{{assignment.discription}}</td>
+                            </tr>
+                            <tr>
+                                <td>Download</td>
+                                <td>
+                                    <svg class="bi bi-box-arrow-in-down" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                      <path fill-rule="evenodd" d="M4.646 8.146a.5.5 0 01.708 0L8 10.793l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z" clip-rule="evenodd"/>
+                                      <path fill-rule="evenodd" d="M8 1a.5.5 0 01.5.5v9a.5.5 0 01-1 0v-9A.5.5 0 018 1z" clip-rule="evenodd"/>
+                                      <path fill-rule="evenodd" d="M1.5 13.5A1.5 1.5 0 003 15h10a1.5 1.5 0 001.5-1.5v-8A1.5 1.5 0 0013 4h-1.5a.5.5 0 000 1H13a.5.5 0 01.5.5v8a.5.5 0 01-.5.5H3a.5.5 0 01-.5-.5v-8A.5.5 0 013 5h1.5a.5.5 0 000-1H3a1.5 1.5 0 00-1.5 1.5v8z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <a href="/{{assignment.assignment_pdf}}">{{assignment.assignment_pdf.name}}</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="videos-list" class="tab-pane fade in">
+            <div class="panel panel-default">
+                <!--            <div class="panel-heading">Existing Videos</div>-->
+                <div class="panel-body">
+                    <div style="border:1px solid #DDD; border-radius:5px; padding: 20px 0px;">
+                    <form method="post" action="/student/{{assignment.id}}/assignment_detail/" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="input-file text-center">
+                            <label for="attached_document" class="form-label" id="bChecksignup">Choose File</label>
+                            <input type="file" class="from-input value-id" id="attached_document" name="answersheet" required>
+                        </div>
+                         <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success rounded ml-auto" style="width: 150px;">
+                                <label>Save</label>
+                            </button>
+                         </div>
+                    </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function changeTab( tabId ){
+        if( tabId == 'new-video'){
+            $('li.videos-list').removeClass('active');
+            $('.tab-content #videos-list').removeClass('active');
+
+            $('li.new-video').addClass('active');
+            $('.tab-content #new-video').addClass('active');
+        }else if( tabId == 'videos-list'){
+            $('li.new-video').removeClass('active');
+            $('.tab-content #new-video').removeClass('active');
+
+            $('li.videos-list').addClass('active');
+            $('.tab-content #videos-list').addClass('active');
+        }
+    }
+
+</script>
+{% include 'authuser/footer.html' %}

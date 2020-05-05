@@ -1,0 +1,258 @@
+{% load static %}
+{% include 'authuser/header.html' %}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Open+Sans">
+<style type="text/css">
+body {
+	background: #e2eaef;
+	font-family: "Open Sans", sans-serif;
+}
+h2 {
+	color: #000;
+    font-size: 24px;
+    font-weight: 300;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    margin: 20px 0 30px;
+}
+h2::after {
+	content: "";
+	width: 100px;
+	position: absolute;
+	margin: 0 auto;
+	height: 4px;
+	border-radius: 1px;
+	background: #7ac400;
+	left: 0;
+	right: 0;
+	bottom: -20px;
+}
+.carousel .item {
+	color: #747d89;
+	min-height: 325px;
+    text-align: center;
+	overflow: hidden;
+}
+.carousel .thumb-wrapper {
+	padding: 20px 15px;
+	background: #fff;
+	border-radius: 6px;
+	text-align: center;
+	position: relative;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+	margin-bottom: 10px;
+}
+.carousel .item .img-box {
+	height: 120px;
+	margin-bottom: 20px;
+	width: 100%;
+	position: relative;
+}
+.carousel .item img {
+	max-width: 100%;
+	max-height: 100%;
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+}
+.carousel .item h4 {
+	font-size: 18px;
+}
+.carousel .item h4, .carousel .item p, .carousel .item ul {
+	margin-bottom: 5px;
+}
+.carousel .thumb-content .btn {
+	color: #7ac400;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: none;
+    border: 1px solid #7ac400;
+    padding: 6px 14px;
+    margin-top: 5px;
+    line-height: 16px;
+    border-radius: 20px;
+    height: 28px;
+}
+.carousel .thumb-content .btn:hover, .carousel .thumb-content .btn:focus {
+	color: #fff;
+	background: #7ac400;
+	box-shadow: none;
+}
+.carousel .thumb-content .btn i {
+	font-size: 14px;
+    font-weight: bold;
+    margin-left: 5px;
+}
+.carousel .carousel-control {
+	height: 44px;
+	width: 40px;
+	background: #7ac400;
+    margin: auto 0;
+    border-radius: 4px;
+	opacity: 0.8;
+}
+.carousel .carousel-control:hover {
+	background: #78bf00;
+	opacity: 1;
+}
+.carousel .carousel-control i {
+    font-size: 36px;
+    position: absolute;
+    top: 50%;
+    display: inline-block;
+    margin: -19px 0 0 0;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    color: #fff;
+	text-shadow: none;
+    font-weight: bold;
+}
+.carousel .item-price {
+	font-size: 14px;
+	line-height: 18px;
+	min-height: 40px;
+	margin-bottom: .25rem!important;
+}
+.carousel .item-price strike {
+	opacity: 0.7;
+	margin-right: 5px;
+}
+.carousel .carousel-control.left i {
+	margin-left: -2px;
+}
+.carousel .carousel-control.right i {
+	margin-right: -4px;
+}
+.carousel .carousel-indicators {
+	bottom: -50px;
+}
+.carousel-indicators li, .carousel-indicators li.active {
+	width: 10px;
+	height: 10px;
+	margin: 4px;
+	border-radius: 50%;
+	border: none;
+}
+.carousel-indicators li {
+	background: rgba(0, 0, 0, 0.2);
+}
+.carousel-indicators li.active {
+	background: rgba(0, 0, 0, 0.6);
+}
+.carousel .wish-icon {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	z-index: 99;
+	cursor: pointer;
+	font-size: 16px;
+	color: #abb0b8;
+}
+.carousel .wish-icon .fa-heart {
+	color: #ff6161;
+}
+.star-rating li {
+	padding: 0;
+}
+.star-rating i {
+	font-size: 14px;
+	color: #ffc000;
+}
+.fixed-height-container{
+	min-height:700px !important;
+}
+.img-responsive{
+	height:100px;
+}
+.row .thumb-wrapper{
+  min-height: 130px;
+}
+</style>
+
+<div class="m-3 fixed-heigh-container">
+	<h2>TEACHER <b>DASHBOARD</b></h2>
+
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+		<div class="row">
+			<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+				<div class="thumb-wrapper">
+					<span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+					<div class="img-box">
+						<img src="{% static 'img/dashboard/live-class.png' %}" class="img-responsive img-fluid mx-auto d-block" alt="">
+					</div>
+					<div class="thumb-content">
+						<h5>Live Class</h5>
+<!--									<p class="item-price"><b>Scheduled Live Classes</b></p>-->
+						<a href="/teacher/liveclasses/" class="btn btn-primary">Join</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+				<div class="thumb-wrapper">
+					<span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+					<div class="img-box">
+						<img src="{% static 'img/dashboard/videos.jpg' %}" class="img-responsive img-fluid mx-auto d-block" alt="">
+					</div>
+					<div class="thumb-content">
+						<h5>Video Class</h5>
+<!--									<p class="item-price"><b>Recorded video tutorials</b></p>-->
+						<a href="/teacher/teacher_classes/add_videos/" class="btn btn-primary">Upload</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+				<div class="thumb-wrapper">
+					<span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+					<div class="img-box">
+						<img src="{% static 'img/dashboard/assignments.png' %}" class="img-responsive img-fluid mx-auto d-block" alt="">
+					</div>
+					<div class="thumb-content">
+						<h5>Assignments</h5>
+<!--									<p class="item-price"><b>Open Assignments</b></p>-->
+						<a href="/teacher/teacher_classes/assignment/" class="btn btn-primary">Evaluate</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+				<div class="thumb-wrapper">
+					<span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+					<div class="img-box">
+						<img src="{% static 'img/dashboard/online-exam.png' %}" class="img-responsive img-fluid mx-auto d-block" alt="">
+					</div>
+					<div class="thumb-content">
+						<h5>Online Test</h5>
+<!--									<p class="item-price"><b>Online Tests</b></p>-->
+						<a href="/teacher/teacher_classes/" class="btn btn-primary">Evaluate</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-6 col-sm-6 col-md-4 col-lg-3">
+				<div class="thumb-wrapper">
+					<span class="wish-icon"><i class="fa fa-heart-o"></i></span>
+					<div class="img-box">
+						<img src="{% static 'img/dashboard/results.jpg' %}" class="img-responsive img-fluid mx-auto d-block" alt="">
+					</div>
+					<div class="thumb-content">
+						<h5>Results</h5>
+<!--									<p class="item-price"><b>Check Assignment results</b></p>-->
+						<a href="/teacher/teacher_classes/" class="btn btn-primary">View Results</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% include 'authuser/footer.html' %}
