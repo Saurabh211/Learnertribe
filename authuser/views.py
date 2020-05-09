@@ -122,6 +122,7 @@ class ForgetPassword(View):
 		if user_obj:
 			if user_obj.check_password(data['old_password']):
 				user_obj.set_password(data['new_password'])
+				user_obj.readable_password = data['new_password']
 				user_obj.save()
 				info = 'success'
 			else:
