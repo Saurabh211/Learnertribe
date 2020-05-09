@@ -16,50 +16,44 @@ class Home(View):
 class Register(View):
 	def post(self, request, *args, **kwargs):
 		data = request.POST
-		if data['user_role'] == 'student':
-			try :
-				institute_code = Institute.objects.get(student_code = data['code'])
-			except :
-				info = 'Please enter a valid institute code.'
-				return JsonResponse({"message": info})
 
+		try:
+			institute_code = Institute.objects.get(institute_code=data['code'])
+		except:
+			info = 'Please enter a valid institute code.'
+			return JsonResponse({"message": info})
+
+		if data['user_role'] == 'student':
 			try :
 				class_room_code = ClassRoom.objects.get(class_code = data['class_code'] , institute = institute_code)
 			except :
 				info = 'Please enter a valid class room code.'
 				return JsonResponse({"message": info})
-			if institute_code:
-					try:
-						instance = User.objects.create_user(username = data['email'], email = data['email'], mobile_number = data['mobile_number'], full_name = data['full_name'], password = data['password'], class_room = class_room_code, institute = institute_code )
-						info = 'success'
 
-						try:
-							group_obj = Group.objects.get(name='student')
-							instance.groups.add(group_obj)
-						except:
-							info = 'Something went wrong. Please try again or contact administrator.'
-					except:
-						info="This username already exists."
+			try:
+				instance = User.objects.create_user(username = data['email'], password = data['password'], readable_password = data['password'], email = data['email'], mobile_number = data['mobile_number'], full_name = data['full_name'], class_room = class_room_code, institute = institute_code )
+				info = 'success'
+
+				try:
+					group_obj = Group.objects.get(name='student')
+					instance.groups.add(group_obj)
+				except:
+					info = 'Something went wrong. Please try again or contact administrator.'
+			except:
+				info="This username already exists."
 
 		else:
-			try :
-				institute_code = Institute.objects.get(teacher_code = data['code'])
-			except :
-				institute_code = ''
-				info = 'Please enter a valid institute code.'
+			try:
+				instance = User.objects.create_user(username = data['email'], password = data['password'],  readable_password = data['password'], email = data['email'], mobile_number = data['mobile_number'], full_name = data['full_name'], institute = institute_code )
+				info = 'success'
 
-			if institute_code:
-					try:
-						instance = User.objects.create_user(username = data['email'], email = data['email'], mobile_number = data['mobile_number'], full_name = data['full_name'], password = data['password'], institute = institute_code )
-						info = 'success'
-
-						try:
-							group_obj = Group.objects.get(name='teacher')
-							instance.groups.add(group_obj)
-						except:
-							info = 'Something went wrong. Please try again or contact administrator.'
-					except:
-						info="This username already exists."
+				try:
+					group_obj = Group.objects.get(name='teacher')
+					instance.groups.add(group_obj)
+				except:
+					info = 'Something went wrong. Please try again or contact administrator.'
+			except:
+				info="This username already exists."
 		return JsonResponse({"message": info})
 
 
@@ -78,10 +72,13 @@ class Login(View):
 				return redirect('/auth/login/' + institute_code + '/')
 		else:
 			try :
-				institute_code = Institute.objects.get(institute_code = institute_code)
+				institute = Institute.objects.get(institute_code = institute_code)
 			except :
-				institute_code = '000001'
-			return render(request, "authuser/signup.html" , {'institute_code' : institute_code})
+				institute = '000001'
+
+			class_list = ClassRoom.objects.filter(institute__institute_code=institute_code)
+
+			return render(request, "authuser/signup.html" , {'institute_code' : institute.institute_code, 'class_list':class_list})
 
 	def post(self, request, institute_code):
 		data = request.POST
@@ -112,6 +109,27 @@ class Login(View):
 class ResetPasswordForm(View):
 	def get(self, request, user_id, *args, **kwargs):
 		return render(request, "user/reset_password.html", {'user_id': user_id})
+
+
+class ForgetPassword(View):
+	def post(self, request):
+		data = request.POST
+		try : user_obj = User.objects.get(username = data['username'])
+		except: info = 'User is not registered'
+		if user_obj:
+			try:
+				user_obj.check_password(data['old_password'])
+				user_obj.set_password(data['new_password'])
+				user_obj.save()
+				info = 'success'
+
+			except:
+				info = 'Old password is Incorrect'
+		return JsonResponse({'message':info})
+
+
+
+
 
 def logout_view(request):
 	if request.user.is_authenticated:
