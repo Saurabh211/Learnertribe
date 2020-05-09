@@ -25,7 +25,7 @@ SECRET_KEY = 'bs!3w&j9(2dc_d4l3hwj4fw705$5_orlly^id!(+p7^$6b!gwp'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = '*'
 
 
 # Application definition
@@ -81,14 +81,14 @@ WSGI_APPLICATION = 'learnertribe.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'foremaij_Learner_Tribe',
-        # 'USER':'root',
-        # 'PASSWORD':'Krishna@1',
-        # 'HOST': 'pi',
-        # 'PORT': '3306',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME' : 'learnertribe',
+        'USER':'root',
+        'PASSWORD':'password',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -135,3 +135,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'authuser.User'
+
+
+BASE_URL = 'http://localhost:8000'
+
+SITE_BASE_URL = 'http://qa.learnertribe.com'
+
