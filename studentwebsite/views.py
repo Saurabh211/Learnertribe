@@ -80,8 +80,7 @@ class SubjectAssignments(View):
 	def get(self, request, id):
 		assignSubject = Subject.objects.filter(id=id)
 		start_date = datetime.today()
-
-		assignments = Assignment.objects.filter(assisment_subject__id = id, created_at__date = start_date)
+		assignments = Assignment.objects.filter(assisment_subject__id = id).order_by('-created_at')[:10]
 		formatted_date = datetime.strftime(start_date, "%m/%d/%Y")
 		return render(request, "studentwebsite/assignments.html", {'subject':assignSubject[0], 'assignments':assignments,'filterDate':formatted_date})
 
@@ -93,9 +92,11 @@ class SubjectAssignmentsMore(View):
 		try:
 			subject_id = data['subject_id']
 			filter_date = data['filter_date']
-
 			start_date = datetime.strptime((filter_date), "%m/%d/%Y").date()
-			assignments = Assignment.objects.filter(assisment_subject__id=subject_id, created_at__date=start_date)
+			if start_date:
+				assignments = Assignment.objects.filter(assisment_subject__id=subject_id, created_at__date = start_date)
+			else:
+				assignments = Assignment.objects.filter(assisment_subject__id=subject_id).order_by('-created_at')[:10]
 			assignmentList = []
 			for v in assignments:
 				assignmentList.append({'id':v.id, 'assisment_name':v.assisment_name})

@@ -42,6 +42,7 @@ $(".show-signup").click(function () {
     $('#LoginForm').trigger("reset");
     $('#user_passcode').trigger("reset");
     $('#ForgetPassword').trigger("reset");
+    $("#code").val(instituteCode);
 });
 
 $(".show-forgot").click(function () {

@@ -174,15 +174,19 @@
                                placeholder="Password" class="from-input" required/>
                         <span onclick="passwordSHOW()"></span>
                     </div>
-                    <div class="input-group mb-4 password">
+                    <div class="input-group mb-4 password d-none">
                         <label class="form-label">Institute code</label>
                         <input type="text" name="code" id="code" minlength="4" maxlength="6"
                                placeholder="Institute Code" class="from-input" required/>
                     </div>
                     <div class="input-group mb-4 password class_code_input">
                         <label class="form-label">Class code</label>
-                        <input type="text" name="class_code" id="classcode" minlength="2" maxlength="6"
-                               placeholder="Class Code" class="from-input" required/>
+                        <select type="text" name="class_code" id="classcode" placeholder="Class Code" class="from-input" required>
+                            <option value="">--None--</option>
+                            {% for class_room in class_list %}
+                            <option value="{{class_room.class_code}}">{{class_room.class_name}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="input-group checkbox mb-3">
                         <input type="checkbox" name="tnc_signup" id="tnc_signup"/>
@@ -209,10 +213,11 @@
     </div>
 </div>
 
-
 {% include 'authuser/footer.html' %}
 
 <script>
+    var instituteCode = '{{institute_code}}';
+
     function login() {
         $(".login-error-container").addClass('d-none');
         $(".login-error-container").text('');
