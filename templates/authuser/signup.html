@@ -230,20 +230,23 @@
                                 <div class="input-group mb-4">
                                     <label class="form-label">Email</label>
                                     <input type="email" name="username" id="usernames" placeholder="Enter Emailaddress" class="from-input" required />
-                                    <label id="forget-error" class="error" style="font-size:12px"></label>
                                 </div>
                                 <div class="input-group mb-4">
                                     <label class="form-label">Old Password</label>
-                                    <input type="text" name="old_password" id="old_password" placeholder="Old Password" class="from-input" required />
+                                    <input type="password" name="old_password" id="old_password" placeholder="Old Password" class="from-input" required />
+                                    <span onclick="passwordSHOWs()"></span>
                                 </div>
                                 <div class="input-group mb-4">
                                     <label class="form-label">New Password</label>
-                                    <input type="text" name="new_password" id="new_password" placeholder="New Password" class="from-input" required />
+                                    <input type="password" name="new_password" id="new_password" placeholder="New Password" class="from-input" required />
+                                    <span onclick="passwordSHOWs()"></span>
                                 </div>
                                 <div class="input-group mb-4">
                                     <label class="form-label">Confirm Password</label>
-                                    <input type="text" name="confirm_password" id="confirm_password" placeholder="Confirm Password" class="from-input" required />
+                                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" class="from-input" required />
+                                    <span onclick="passwordSHOWs()"></span>
                                 </div>
+                                <label id="forget-error" class="error" style="font-size:12px"></label>
                                 <div class="input-group mb-3">
                                     <span class="btn btn-success rounded" onclick="forget_pass()">Submit</span>
                                 </div>
@@ -385,7 +388,12 @@
                         $(".tab-login").hide()
                         $("#login").show();
                     }
-                }
+                },
+                error: function (jqXHR, status, err) {
+                    hideSpinner();
+                    $(".signup-error-container").removeClass('d-none');
+                    $(".signup-error-container").text("Something went wrong try again.");
+                },
             });
             }
     };
