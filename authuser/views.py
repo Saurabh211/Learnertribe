@@ -117,6 +117,7 @@ class ForgetPassword(View):
 		info = ''
 		try : user_obj = User.objects.get(username = data['username'])
 		except:
+			user_obj = ''
 			info = 'User is not registered'
 		if user_obj:
 			if user_obj.check_password(data['old_password']):
