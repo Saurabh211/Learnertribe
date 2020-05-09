@@ -229,20 +229,20 @@
                             <div class="form-style px-3">
                                 <div class="input-group mb-4">
                                     <label class="form-label">Email</label>
-                                    <input type="email" name="username" id="usernames" placeholder="Enter Email/Phone" class="from-input" required />
-                                    <label id="forget-email-error" class="error" style="font-size:12px"></label>
+                                    <input type="email" name="username" id="usernames" placeholder="Enter Emailaddress" class="from-input" required />
+                                    <label id="forget-error" class="error" style="font-size:12px"></label>
                                 </div>
                                 <div class="input-group mb-4">
                                     <label class="form-label">Old Password</label>
-                                    <input type="text" name="old_password" id="old_password" placeholder="Enter Email/Phone" class="from-input" required />
+                                    <input type="text" name="old_password" id="old_password" placeholder="Old Password" class="from-input" required />
                                 </div>
                                 <div class="input-group mb-4">
                                     <label class="form-label">New Password</label>
-                                    <input type="text" name="new_password" id="new_password" placeholder="Enter Email/Phone" class="from-input" required />
+                                    <input type="text" name="new_password" id="new_password" placeholder="New Password" class="from-input" required />
                                 </div>
                                 <div class="input-group mb-4">
                                     <label class="form-label">Confirm Password</label>
-                                    <input type="text" name="confirm_password" id="confirm_password" placeholder="Enter Email/Phone" class="from-input" required />
+                                    <input type="text" name="confirm_password" id="confirm_password" placeholder="Confirm Password" class="from-input" required />
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="btn btn-success rounded" onclick="forget_pass()">Submit</span>
@@ -378,9 +378,8 @@
                 dataType: "json",
                 success: function(data) {
                     if (data.message != "success") {
-                        $('body').removeClass("loaders");
-                        $("#forget-email-error").text(data.message);
-                        $("#forget-email-error").show();
+                        $("#forget-error").text(data.message);
+                        $("#forget-error").show();
                         return false;
                     } else {
                         $(".tab-login").hide()
