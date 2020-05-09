@@ -15,10 +15,6 @@
     .login-form h2 {
         margin: 0 0 15px;
     }
-    .form-control, .btn {
-        min-height: 38px;
-        border-radius: 2px;
-    }
 
     #bChecksignup {
         white-space: nowrap;
@@ -36,117 +32,230 @@
         padding-right: 5px;
         padding-left: 5px;
     }
+    #spinner-overlay {
+      background: #ffffff;
+      color: #666666;
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      z-index: 5000;
+      top: 0;
+      left: 0;
+      float: left;
+      text-align: center;
+      padding-top: 25%;
+      opacity: .80;
+    }
+    .spinner {
+        margin: 0 auto;
+        height: 64px;
+        width: 64px;
+        animation: rotate 0.8s infinite linear;
+        border: 5px solid #3fd273;
+        border-right-color: transparent;
+        border-radius: 50%;
+    }
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
 </style>
 
 
-    <div class="container">
-            <!--                Sign up section -->
-            <div id="sign_up" class="tab-login" style="display: none">
-                <div class="login-form">
-                        <form id="SignUpForm" method="post">
-                            {% csrf_token %}
-                            <img class="logo_img mt-4 mb-4 rounded mx-auto d-block" src="/{{institute_code.profile_image}}" class="img mr-3" alt="LOGO">
-
-                            <h2 class="mt-0">Sign up as:</h2>
-                            <div class="d-flex my-4 px-3">
-                                <div>
-                                    <label for="student" class="login-tab cust-tab active d-flex align-items-center"><input type="radio" name="user_role" id="student" value="student" checked="checked"/><span class="icon merchant mr-1"></span>Student</label>
-                                </div>
-                                <div class="mx-2 mx-lg-3">
-                                    <label for="teacher" class=" login-tab cust-tab d-flex align-items-center"> <input type="radio" name="user_role" id="teacher" value="teacher"/><span class="icon customer mr-1"></span>Teacher</label>
-                                </div>
-                            </div>
-
-                            <div class="alert alert-danger signup-error-container d-none" role="alert">
-                                <label id="registered-signup-error" class="error" style="font-size:12px"></label>
-                            </div>
-
-                            <div class="form-style px-2">
-                                <div class="input-group mb-4">
-                                    <label class="form-label">Full Name</label>
-                                    <input type="text" name="full_name" id="full_name" placeholder="Full Name" minlength="5" maxlength="20" class="from-input" required />
-                                </div>
-                                <div class="input-group mb-4">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="email" id="username" placeholder="Email" class="from-input" required />
-                                    <label id="registered-email-error" class="error" style="font-size:12px"></label>
-                                </div>
-                                <div class="input-group mb-4 password">
-                                    <label class="form-label">Password</label>
-                                    <input type="password" name="password" id="password" minlength="8" maxlength="20" placeholder="Password" class="from-input" required />
-                                    <span onclick="passwordSHOW()"></span>
-                                </div>
-                                <div class="input-group mb-4 password">
-                                    <label class="form-label">Institute code</label>
-                                    <input type="text" name="code" id="code" minlength="4" maxlength="6" placeholder="Institute Code" class="from-input" required />
-                                </div>
-                                <div class="input-group mb-4 password class_code_input">
-                                    <label class="form-label">Class code</label>
-                                    <input type="text" name="class_code" id="classcode" minlength="2" maxlength="6" placeholder="Class Code" class="from-input" required />
-                                </div>
-                                <div class="input-group checkbox mb-3">
-                                    <input type="checkbox" name="tnc_signup" id="tnc_signup" />
-                                    <label class="form-label" for="tnc_signup" style="font-size: 13px;">I agree to usage terms & conditions.</label>
-                                </div>
-                                <div class="input-group checkbox mb-3">
-                                    <span class="btn btn-success rounded signup_action_button" onclick="sign_up()">Register</span>
-                                </div>
-                            </div>
-                            <p class="px-3 text-center">
-                                <a href="javascript:;" class="show-login" style="text-decoration: underline;">Already have an account? <strong>Login</strong>
-                                </a>
-                            </p>
-                        </form>
-                </div>
-            </div>
-
-            <!--                auth section-->
-            <div id="login" class="tab-login" style="display: block">
-                    <div class="login-form">
-                        <form id="LoginForm" method="post">
-                            {% csrf_token %}
-                            <img class="logo_img mt-4 mb-4 rounded mx-auto d-block" src="/{{institute_code.profile_image}}" class="img mr-3" alt="LOGO">
-
-                            <h2 class="mb-2 text-center">Log In</h2><br>
-                            <div class="form-style px-2">
-                                <div class="alert alert-danger login-error-container d-none" role="alert">
-                                    <label id="registered-login-error" class="error" style="font-size:12px"></label>
-                                </div>
-                                <div class="input-group mb-4 form-group">
-                                    <label class="form-label">Email</label>
-                                    <input type="hidden" name="source" value="web" class="from-input" required />
-                                    <input type="text" name="username" id="login_username" placeholder="Email" class="from-input" required />
-                                </div>
-
-                                <div class="input-group mb-4 password form-group">
-                                    <label class="form-label">Password</label>
-                                    <input type="password" name="password" id="login_password" placeholder="Password" class="from-input" required />
-                                    <span onclick="passwordSHOWs()"></span>
-                                </div>
-
-                                <div class="input-group checkbox mb-3">
-                                    <div class="btn btn-success rounded login_action_button" onclick="login()">
-                                        <span class="loading_spinner spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-                                        <span class="align-middle">Login</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <p class="px-3 text-center">
-                                <a href="javascript:;" class="show-signup" style="text-decoration: underline;">Don't have an account? <strong>Register</strong>
-                                </a>
-                            </p>
-                            <input type="hidden" id="registeration_source" name="registeration_source" value="normal">
-                        </form>
-                    </div>
-            </div>
+<div class="container">
+    <div id="spinner-overlay" style="display:none;">
+        <div class="spinner"></div>
     </div>
+
+    <!--                login section-->
+    <div id="login" class="tab-login" style="display: block">
+        <div class="login-form">
+            <form id="LoginForm" method="post">
+                {% csrf_token %}
+                <img class="logo_img mt-1 mb-4 rounded mx-auto d-block" src="/{{institute_code.profile_image}}"
+                     class="img mr-3" alt="LOGO">
+
+                <h2 class="mb-2 text-center">Log In</h2><br>
+                <div class="form-style px-2">
+                    <div class="alert alert-danger login-error-container d-none" role="alert">
+                        <label id="registered-login-error" class="error" style="font-size:12px"></label>
+                    </div>
+                    <div class="input-group mb-4 form-group">
+                        <label class="form-label">Email</label>
+                        <input type="hidden" name="source" value="web" class="from-input" required/>
+                        <input type="text" name="username" id="login_username" placeholder="Email" class="from-input"
+                               required/>
+                    </div>
+
+                    <div class="input-group mb-4 password form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" id="login_password" placeholder="Password"
+                               class="from-input" required/>
+                        <span onclick="passwordSHOWs()"></span>
+                    </div>
+
+                    <div class="input-group checkbox mb-3">
+                        <div class="btn btn-success rounded login_action_button" onclick="login()">
+                            <span class="loading_spinner spinner-border spinner-border-sm d-none" role="status"
+                                  aria-hidden="true"></span>
+                            <span class="align-middle">Login</span>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success login-success-container d-none" role="alert">
+                        <div class="text-center">
+                            Authentication successful !! <br/>Moving you to dashboard.
+                        </div>
+                    </div>
+                </div>
+
+                <p class="px-3 text-center">
+                    <a href="javascript:;" class="show-signup" style="text-decoration: underline;">Don't have an
+                        account? <strong>Register</strong>
+                    </a>
+                </p>
+                <input type="hidden" id="registeration_source" name="registeration_source" value="normal">
+            </form>
+        </div>
+    </div>
+
+    <!--                Sign up section -->
+    <div id="sign_up" class="tab-login" style="display: none">
+        <div class="login-form">
+            <form id="SignUpForm" method="post">
+                {% csrf_token %}
+                <img class="logo_img mt-1 mb-4 rounded mx-auto d-block" src="/{{institute_code.profile_image}}"
+                     class="img mr-3" alt="LOGO">
+
+                <h2 class="mt-0">Sign up as:</h2>
+                <div class="d-flex my-4 px-3">
+                    <div>
+                        <label for="student" class="login-tab cust-tab active d-flex align-items-center"><input
+                                type="radio" name="user_role" id="student" value="student" checked="checked"/><span
+                                class="icon merchant mr-1"></span>Student</label>
+                    </div>
+                    <div class="mx-2 mx-lg-3">
+                        <label for="teacher" class=" login-tab cust-tab d-flex align-items-center"> <input type="radio"
+                                                                                                           name="user_role"
+                                                                                                           id="teacher"
+                                                                                                           value="teacher"/><span
+                                class="icon customer mr-1"></span>Teacher</label>
+                    </div>
+                </div>
+
+                <div class="alert alert-danger signup-error-container d-none" role="alert">
+                    <label id="registered-signup-error" class="error" style="font-size:12px"></label>
+                </div>
+
+                <div class="form-style px-2">
+                    <div class="input-group mb-4">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="full_name" id="full_name" placeholder="Full Name" minlength="5"
+                               maxlength="20" class="from-input" required/>
+                    </div>
+                    <div class="input-group mb-4">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" id="username" placeholder="Email" class="from-input" required/>
+                        <label id="registered-email-error" class="error" style="font-size:12px"></label>
+                    </div>
+                    <div class="input-group mb-4">
+                        <label class="form-label">Mobile No.</label>
+                        <input type="text" name="mobile_number" id="mobile_number" placeholder="Mobile No." class="from-input" maxlength="10" required/>
+                        <label id="registered-mobile-error" class="error" style="font-size:12px"></label>
+                    </div>
+                    <div class="input-group mb-4 password">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" id="password" minlength="8" maxlength="20"
+                               placeholder="Password" class="from-input" required/>
+                        <span onclick="passwordSHOW()"></span>
+                    </div>
+                    <div class="input-group mb-4 password">
+                        <label class="form-label">Institute code</label>
+                        <input type="text" name="code" id="code" minlength="4" maxlength="6"
+                               placeholder="Institute Code" class="from-input" required/>
+                    </div>
+                    <div class="input-group mb-4 password class_code_input">
+                        <label class="form-label">Class code</label>
+                        <input type="text" name="class_code" id="classcode" minlength="2" maxlength="6"
+                               placeholder="Class Code" class="from-input" required/>
+                    </div>
+                    <div class="input-group checkbox mb-3">
+                        <input type="checkbox" name="tnc_signup" id="tnc_signup"/>
+                        <label class="form-label" for="tnc_signup" style="font-size: 13px;">I agree to usage terms &
+                            conditions.</label>
+                    </div>
+                    <div class="input-group checkbox mb-3">
+                        <span class="btn btn-success rounded signup_action_button" onclick="sign_up()">Register</span>
+                    </div>
+
+                    <div class="alert alert-success signup-success-container d-none" role="alert">
+                        <div class="text-center">
+                            Registration successful !! <br/> Ask your administrator to verify your user.
+                        </div>
+                    </div>
+                </div>
+                <p class="px-3 text-center">
+                    <a href="javascript:;" class="show-login" style="text-decoration: underline;">Already have an
+                        account? <strong>Login</strong>
+                    </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
 
 
 {% include 'authuser/footer.html' %}
 
 <script>
+    function login() {
+        $(".login-error-container").addClass('d-none');
+        $(".login-error-container").text('');
+
+        if ( $("#LoginForm").valid() && !$('.login_action_button').hasClass('disabled_action') ) {
+            $('.login_action_button span.loading_spinner').removeClass('d-none');
+            $('.login_action_button').addClass('disabled_action')
+
+            showSpinner();
+
+            $.ajax({
+                type: 'POST',
+                url: '/auth/login/00000001/',
+                data: $("#LoginForm").serialize(),
+                dataType: "json",
+                success: function(data) {
+
+
+                    $('.login_action_button span.loading_spinner').addClass('d-none');
+                    $('.login_action_button').removeClass('disabled_action')
+
+                    if (data.message != "success") {
+                        $(".login-error-container").removeClass('d-none');
+                        $(".login-error-container").text(data.message);
+                        return false;
+                    } else {
+                        $(".login-success-container").removeClass('d-none');
+                        $('.login_action_button').addClass('disabled_action');
+
+                        window.location.href = data.redirect_to;
+                    }
+                },
+                error: function (jqXHR, status, err) {
+                    hideSpinner();
+                    $(".signup-error-container").removeClass('d-none');
+                    $(".signup-error-container").text("Something went wrong try again.");
+                },
+                complete: function (jqXHR, status) {
+                    hideSpinner();
+                }
+            });
+        }
+    };
 
     function sign_up() {
         $(".signup-error-container").addClass('d-none');
@@ -161,62 +270,41 @@
             $('.signup_action_button span.loading_spinner').removeClass('d-none');
             $('.signup_action_button').addClass('disabled_action')
 
+            showSpinner();
+
             $.ajax({
                 type: 'POST',
                 url: '/auth/register/',
                 data: $("#SignUpForm").serialize(),
                 dataType: "json",
                 success: function(data) {
+                    hideSpinner();
+
                     var user_id = data.user_id
                     $("#user_id").val(user_id);
 
                     $('.signup_action_button span.loading_spinner').addClass('d-none');
-                    $('.signup_action_button').removeClass('disabled_action')
+                    $('.signup_action_button').removeClass('disabled_action');
 
                     if (data.message != "success") {
                         $(".signup-error-container").removeClass('d-none');
                         $(".signup-error-container").text(data.message);
                         return false;
                     } else {
-                        $(".tab-login").hide()
-                        $("#login").show();
+                        //$(".tab-login").hide()
+                        //$("#login").show();
+                        $(".signup-success-container").removeClass('d-none');
+                        $('.signup_action_button').addClass('disabled_action');
+
                     }
-                }
-            });
-        }
-    };
-
-
-
-    function login() {
-        $(".login-error-container").addClass('d-none');
-        $(".login-error-container").text('');
-
-        if ( $("#LoginForm").valid() && !$('.login_action_button').hasClass('disabled_action') ) {
-            $('.login_action_button span.loading_spinner').removeClass('d-none');
-            $('.login_action_button').addClass('disabled_action')
-
-            $('body').addClass("loaders");
-            $.ajax({
-                type: 'POST',
-                url: '/auth/login/00000001/',
-                data: $("#LoginForm").serialize(),
-                dataType: "json",
-                success: function(data) {
-                    $('.login_action_button span.loading_spinner').addClass('d-none');
-                    $('.login_action_button').removeClass('disabled_action')
-
-                    if (data.message != "success") {
-                        $(".login-error-container").removeClass('d-none');
-                        $(".login-error-container").text(data.message);
-                        return false;
-                    } else {
-                        if( data.user_group == "teacher" ){
-                            window.location.href = "/teacher/dashboard/";
-                        }else{
-                            window.location.href = "/student/dashboard/";
-                        }
-                    }
+                },
+                error: function (jqXHR, status, err) {
+                    hideSpinner();
+                    $(".signup-error-container").removeClass('d-none');
+                    $(".signup-error-container").text("Something went wrong try again.");
+                },
+                complete: function (jqXHR, status) {
+                    hideSpinner();
                 }
             });
         }
@@ -251,4 +339,5 @@
     $('#student').click(function() {
         $('.class_code_input').removeClass('d-none');
     })
+
 </script>

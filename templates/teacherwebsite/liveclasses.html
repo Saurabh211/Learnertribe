@@ -193,7 +193,7 @@ h2::after {
 						<div class="thumb-content col-7">
 							<h5>{{liveClass.live_class_name}}</h5>
 	<!--									<p class="item-price"><b>Scheduled Live Classes</b></p>-->
-							<p class="item-price"><span>Start time: {{ liveClass.meeting_start_at|date:'H:i' }}</span></p>
+							<p class="item-price"><span>Start time: {{ liveClass.meeting_start_at|date:"D d M Y" }} {{ liveClass.meeting_start_at|time:"H:i" }}</span></p>
 							<p class="item-price"><span>{{liveClass.live_class_description}}</span></p>
 						</div>
 					</div>

@@ -30,7 +30,7 @@ class Register(View):
 				return JsonResponse({"message": info})
 			if institute_code:
 					try:
-						instance = User.objects.create_user(username = data['email'], full_name = data['full_name'], password = data['password'], class_room = class_room_code, institute = institute_code )
+						instance = User.objects.create_user(username = data['email'], email = data['email'], mobile_number = data['mobile_number'], full_name = data['full_name'], password = data['password'], class_room = class_room_code, institute = institute_code )
 						info = 'success'
 
 						try:
@@ -50,7 +50,7 @@ class Register(View):
 
 			if institute_code:
 					try:
-						instance = User.objects.create_user(username = data['email'], full_name = data['full_name'], password = data['password'], institute = institute_code )
+						instance = User.objects.create_user(username = data['email'], email = data['email'], mobile_number = data['mobile_number'], full_name = data['full_name'], password = data['password'], institute = institute_code )
 						info = 'success'
 
 						try:
@@ -63,39 +63,50 @@ class Register(View):
 		return JsonResponse({"message": info})
 
 
-
 class Login(View):
 	def get(self, request, institute_code):
 		if request.user.is_authenticated:
 			user_group = request.user.groups.all()[0].name
 			if user_group == 'teacher':
 				return redirect('/teacher/dashboard/')
-			else:
+			elif user_group == 'student':
 				return redirect('/student/dashboard/')
+			elif user_group == 'institute_admin':
+				return redirect('/admin/dashboard/')
+			else:
+				logout(request)
+				return redirect('/auth/login/' + institute_code + '/')
 		else:
 			try :
 				institute_code = Institute.objects.get(institute_code = institute_code)
 			except :
-				institute_code = ''
+				institute_code = '000001'
 			return render(request, "authuser/signup.html" , {'institute_code' : institute_code})
 
 	def post(self, request, institute_code):
 		data = request.POST
-		user_group = ''
+		redirect_to = ''
 		try:
 			user_obj = authenticate(username=data['username'], password=data['password'])
 			if user_obj is not None:
 				if user_obj.is_verified:
 					login(request, user_obj)
 					user_group = user_obj.groups.all()[0].name
+					if user_group == 'teacher':
+						redirect_to = '/teacher/dashboard/'
+					elif user_group == 'student':
+						redirect_to = '/student/dashboard/'
+					elif user_group == 'admin':
+						redirect_to = '/admin/dashboard/'
+
 					info = 'success'
 				else:
-					info="User verification is pending for this user."
+					info="User verification is pending for this user. Please contact system administrator for verification."
 			else:
 				info = "Invalid username or password."
 		except:
-			info = "Ops something went wrong"
-		return JsonResponse({"message": info, 'user_group':user_group}, safe=False)
+			info = "something went wrong. Please try again."
+		return JsonResponse({"message": info,'redirect_to': redirect_to}, safe=False)
 
 
 class ResetPasswordForm(View):
