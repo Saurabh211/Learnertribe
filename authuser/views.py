@@ -114,7 +114,10 @@ class ResetPasswordForm(View):
 class ForgetPassword(View):
 	def post(self, request):
 		data = request.POST
-		user_obj = User.objects.filter(username = data['username'])
+		info = ''
+		try : user_obj = User.objects.get(username = data['username'])
+		except:
+			info = 'User is not registered'
 		if user_obj:
 			if user_obj.check_password(data['old_password']):
 				user_obj.set_password(data['new_password'])
@@ -122,8 +125,6 @@ class ForgetPassword(View):
 				info = 'success'
 			else:
 				info = 'Old password is Incorrect'
-		else:
-			info = 'User is not registered'
 		return JsonResponse({'message':info})
 
 
