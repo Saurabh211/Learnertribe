@@ -1,0 +1,231 @@
+{% include 'adminwebsite/header.html' %}
+{% include 'adminwebsite/left_nav.html' %}
+<div id="content-page" class="content-page">
+            <div class="container-fluid">
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Live Classes</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <ul class="nav nav-tabs mb-0" id="myTab-1" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">New</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Existing</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent-2">
+                                    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="table-responsive" style="margin-top: -1px">
+                                            <div class="sign-in-from">
+                                                <h3 class="mt-2 mb-0">Create New Live Class Session</h3>
+                                                <form class="mt-4" method="post" id="login">{% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="liveclassroom">Class</label>
+                                                        <select name="classname" class="form-control mb-0"
+                                                               id="liveclassroom">
+                                                            <option value="">-- NONE --</option>
+                                                            {% for classRoom in classList %}
+                                                            <option value="{{classRoom.pk}}">{{classRoom.class_name}} : {{classRoom.class_code}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="liveclassname">Title</label>
+                                                        <input type="text" name="classname" class="form-control mb-0"
+                                                               id="liveclassname" placeholder="Class Title" maxlength="20">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="liveclassdescription">Description</label>
+                                                        <input type="text" name="classdescription" class="form-control mb-0"
+                                                               id="liveclassdescription" maxlength="20">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="liveclassurl">Joining URL</label>
+                                                        <input type="text" name="classurl" class="form-control mb-0"
+                                                               id="liveclassurl" maxlength="250">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <label for="liveclassstartdate">Start Date</label>
+                                                                <input type="text" name="classstartdate"
+                                                                       class="form-control mb-0" placeholder="mm/dd/yyyy"
+                                                                       id="liveclassstartdate" maxlength="10">
+                                                            </div>
+                                                            <div class="col">
+                                                                <label for="liveclassstarttime">&nbsp</label>
+                                                                <input type="text" name="classstartdate"
+                                                                       class="form-control mb-0" placeholder="HH:MM"
+                                                                       id="liveclassstarttime" maxlength="5">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="liveclassduration">Class Duration</label>
+                                                        <input type="text" name="classduration" class="form-control mb-0"
+                                                               id="liveclassduration" placeholder="Duration in Hours" maxlength="1">
+                                                    </div>
+
+                                                    <div class="d-inline-block w-100">
+                                                        <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+                                                        </div>
+                                                        <span onclick="createLiveClass()" class="btn btn-primary float-right">Submit</span>
+
+                                                        <label id="liveclass_error" class="error"
+                                                               style="font-size:12px"></label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                        <div class="table-responsive" style="margin-top: -1px">
+                                            {% if liveClasses %}
+                                            <table class="table mb-0  table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Start Time</th>
+                                                    <th>End Time</th>
+                                                    <th>Description</th>
+                                                    <th>Join</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tbody>
+                                                    {% for liveClass in liveClasses %}
+                                                    <tr>
+                                                        <td>{{liveClass.live_class_name}}</td>
+                                                        <td>{{ liveClass.meeting_start_at|date:"D d M Y" }} {{ liveClass.meeting_start_at|time:"H:i" }}</td>
+                                                        <td>{{ liveClass.meeting_end_at|date:"D d M Y" }} {{ liveClass.meeting_end_at|time:"H:i" }}</td>
+                                                        <td>{{liveClass.live_class_description}}</td>
+                                                        <td><a href="{{liveClass.meeting_URL}}" class="btn btn-primary">Join</a></td>
+                                                        <td>
+                                                            <div class="flex align-items-center list-user-action">
+                                                                <a data-toggle="tooltip" data-placement="top" title=""
+                                                                   data-original-title="Delete" href="javascript:;"
+                                                                   onclick="liveclass_delete({{liveClass.id}})"><i
+                                                                        class="ri-delete-bin-line"></i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            {% else %}
+                                            <br>
+                                            <h2>No Existing Live Classes</h2>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+{%  include 'adminwebsite/footer.html' %}
+
+<script>
+    function createLiveClass(){
+        var isValid = true;
+        $("#liveclass_error").text("");
+
+        $('#liveclassroom').removeClass('is-invalid');
+        if( $('#liveclassroom').val().trim().length > 0 ){
+            $('#liveclassroom').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#liveclassroom').addClass('is-invalid');
+        }
+
+        $('#liveclassurl').removeClass('is-invalid');
+        if( $('#liveclassurl').val().trim().length > 0 && $('#liveclassurl').val().trim().toUpperCase().startsWith("HTTPS://") ){
+            $('#liveclassurl').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#liveclassurl').addClass('is-invalid');
+        }
+
+        $('#liveclassname').removeClass('is-invalid');
+        if( $('#liveclassname').val().trim().length > 0 ){
+            $('#liveclassname').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#liveclassname').addClass('is-invalid');
+        }
+
+        $('#liveclassdescription').addClass('is-valid');
+
+        $('#liveclassstartdate').removeClass('is-invalid');
+        var dateformat = /^\d{2}([/])\d{2}([/])\d{4}$/
+        if( $('#liveclassstartdate').val().trim().length == 10 && $('#liveclassstartdate').val().trim().match(dateformat) ){
+            $('#liveclassstartdate').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#liveclassstartdate').addClass('is-invalid');
+        }
+
+        $('#liveclassstarttime').removeClass('is-invalid');
+        var timeformat = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+        if( $('#liveclassstarttime').val().trim().length == 5 && $('#liveclassstarttime').val().trim().match(timeformat) ){
+            $('#liveclassstarttime').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#liveclassstarttime').addClass('is-invalid');
+        }
+
+        $('#liveclassduration').removeClass('is-invalid');
+        var numberFormat = /^[0-9]{1}$/
+        if( $('#liveclassduration').val().trim().length == 1 && $('#liveclassduration').val().trim().match(numberFormat) ){
+            $('#liveclassduration').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#liveclassduration').addClass('is-invalid');
+        }
+
+        if( isValid ){
+            $.ajax({
+                type: 'POST',
+                url: '/admin/liveclass_add/',
+                data: {
+                    "classRoom": $('#liveclassroom').val(),
+                    "title": $('#liveclassname').val(),
+                    "meeting_url": $('#liveclassurl').val(),
+                    "description": $('#liveclassdescription').val(),
+                    "startTime": $('#liveclassstartdate').val()+' '+$('#liveclassstarttime').val()+':00',
+                    "duration": $('#liveclassduration').val(),
+                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                },
+                dataType: "json",
+                success: function(data) {
+                    location.reload();
+                },
+                error: function (jqXHR, exception) {
+                    $("#liveclass_error").text("something went wrong try again");
+                }
+            });
+        }
+    }
+
+    function liveclass_delete(id) {
+        $.ajax({
+            type: 'GET',
+            url: '/admin/liveclass_delete/' + id + '/',
+            dataType: "json",
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+</script>

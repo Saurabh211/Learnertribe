@@ -16,7 +16,7 @@
                         <div class="row justify-content-between">
                             <div class="col-sm-12 col-md-6 col-lg-4">
                                 <div id="user_list_datatable_info" class="dataTables_filter">
-                                    <form method="get" action="/rental_admin/agent_listing/" class="mr-3 position-relative">
+                                    <form method="get" action="/admin/teacher_listing/" class="mr-3 position-relative">
                                         <div class="form-group mb-0">
                                             <input type="search" name="search" class="form-control" id="exampleInputSearch" placeholder="Search" aria-controls="user-list-table"><br>
                                         </div>
@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <div class="user-list-files d-flex float-right">
-                                    <a href="/rental_admin/agent_listing/?download=csv" class="chat-icon-phone">
+                                    <a href="/admin/teacher_listing/?download=csv" class="chat-icon-phone">
                                         Download
                                     </a>
                                 </div>
@@ -40,7 +40,7 @@
                                         <th>Contact</th>
                                         <th>Email</th>
                                         <th>Join Date</th>
-                                        <th>Is Active</th>
+                                        <th>Verify</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -50,10 +50,10 @@
                                         <td>{{user.full_name}}</td>
                                         <td>{{user.mobile_number}}</td>
                                         <td>{{user.email}}</td>
-                                        <td>{{user.date_joined}}</td>
+                                        <td>{{user.created_at}}</td>
                                         <td>
                                             <div class="custom-control custom-switch text-center">
-                                                {%  if user.is_active %}
+                                                {%  if user.is_verified %}
                                                 <input type="checkbox" onclick="user_update({{user.id}})" name="is_verified" value="0" class="custom-control-input" id="is_verified{{user.id}}" checked="">
                                                 {% else %}
                                                 <input type="checkbox" onclick="user_update({{user.id}})" name="is_verified" value="1" class="custom-control-input" id="is_verified{{user.id}}">
@@ -63,7 +63,7 @@
                                         </td>
                                         <td>
                                             <div class="flex align-items-center list-user-action">
-                                                <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Details" href="/rental_admin/user_detail/{{user.id}}"><i class="ri-file-list-3-line"></i></a>
+                                                <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Details" href="/admin/user_detail/{{user.id}}"><i class="ri-file-list-3-line"></i></a>
                                                 <a data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="javascript:;" onclick="user_delete({{user.id}})"><i class="ri-delete-bin-line"></i></a>
                                             </div>
                                         </td>
@@ -74,8 +74,6 @@
                             </table>
                             {% include 'adminwebsite/paginator.html' with users=total_teacher %}
                         </div>
-
-
                     </div>
                 </div>
             </div>

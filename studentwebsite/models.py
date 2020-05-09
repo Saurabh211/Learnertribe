@@ -54,7 +54,7 @@ class Subject(models.Model):
 class Video(models.Model):
     video_sub = models.ForeignKey(Subject, on_delete=models.CASCADE)
     video_name = models.CharField(max_length=40, null=False, blank=False)
-    video_url = models.CharField(max_length=200, null=False, blank=False)
+    video_url = models.CharField(max_length=400, null=False, blank=False)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

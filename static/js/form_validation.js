@@ -21,7 +21,11 @@ $.validator.addMethod("atLeastOneSymbol", function (value, element) {
 
 $.validator.addMethod("onlyNumericals", function(value, element) {
         return this.optional(element) || /[0-9]$/.test(value);
-    }, "This field contains only Numbers");
+}, "This field contains only Numbers");
+
+$.validator.addMethod("phoneNumber", function(value, element) {
+        return this.optional(element) || /^[0][1-9]\d{9}$|^[1-9]\d{9}$/.test(value);
+}, "Please enter valid 10 digit number");
 
 
 $("#SignUpForm").validate({
@@ -44,13 +48,22 @@ $("#SignUpForm").validate({
         },
         emailRule:true,
       },
-
-  messages: {
-      full_name: {
-        onlyLetters:"First Name contains only alphabets"
+      mobile_number: {
+        required: {
+          depends:function(){
+            $(this).val($.trim($(this).val()));
+            return true;
+        }
+        },
+        phoneNumber:true
       },
-    },
-    }
+
+      messages: {
+          full_name: {
+            onlyLetters:"First Name contains only alphabets"
+          },
+      },
+  }
 });
 
 

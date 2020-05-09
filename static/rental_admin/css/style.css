@@ -179,7 +179,7 @@ a:hover { text-decoration: none; }
                                Sign In
 -----------------------------------------------------------------------*/
 .sign-in-page { height: 100vh; }
-.sign-in-detail { padding: 100px; height: 100vh; }
+.sign-in-detail { padding: 60px 100px; height: 100vh; }
 .sign-in-logo { display: inline-block; width: 100%; }
 .sign-in-logo img { height: 50px; }
 .sign-in-from { padding: 0 120px; }

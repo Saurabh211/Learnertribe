@@ -2,9 +2,9 @@
 <!-- Sidebar  -->
 <div class="iq-sidebar">
     <div class="iq-sidebar-logo d-flex justify-content-between">
-        <a href="/rental_admin/dashboard/">
-            <img src="images/logo.png" class="img-fluid" alt="">
-            <span>LearnerTribe Admin</span>
+        <a href="/admin/dashboard/">
+            <img src="{% static 'img/logo/logo-icon-310x310.png' %}" class="img-fluid" alt="">
+            <span>Learner Tribe</span>
         </a>
         <div class="iq-menu-bt align-self-center">
             <div class="wrapper-menu">
@@ -20,15 +20,15 @@
                 <li>
                     <a href="/admin/dashboard/" class="link_active"><i class="ri-home-4-line"></i><span>Dashboard</span></a>
                 </li>
+                <li><a href="/admin/notifications/" class="iq-waves-effect link_active"><i class="ri-notification-3-line"></i><span>Pending Verifications</span></a></li>
                 <li>
-                    <a href="#user-info" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="ri-user-line"></i><span>Users Listing</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                    <a href="#user-info" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="ri-user-line"></i><span>User Listing</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
                     <ul id="user-info" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                         <li><a href="/admin/teacher_listing/" accesskey="" class="link_active">Teacher Listing</a></li>
                         <li><a href="/admin/student_listing/" class="link_active">Student Listing</a></li>
                     </ul>
                 </li>
-                <li><a href="/admin/order_listing/" class="iq-waves-effect link_active"><i class="ri-shopping-cart-line"></i><span>Live Classes</span></a></li>
-                <li><a href="/admin/notifications/" class="iq-waves-effect link_active"><i class="ri-notification-3-line"></i><span>Notifications</span></a></li>
+                <li><a href="/admin/liveclass_listing/" class="iq-waves-effect link_active"><i class="ri-movie-line"></i><span>Live Classes</span></a></li>
             </ul>
         </nav>
         <div class="p-3"></div>
@@ -41,8 +41,8 @@
         <div class="iq-sidebar-logo">
             <div class="top-logo">
                 <a href="index.html" class="logo">
-                    <img src="../images/logo.png" class="img-fluid" alt="">
-                    <span>azyrento</span>
+                    <img src="{% static 'img/logo/logo-icon-310x310.png' %}" class="img-fluid" alt="">
+                    <span>Learner Tribe</span>
                 </a>
             </div>
         </div>
@@ -59,13 +59,9 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto navbar-list">
-                    <li class="nav-item">
-<!--                        <a class="search-toggle iq-waves-effect" href="#"><i class="ri-search-line"></i></a>-->
-                        <form action="#" class="search-box">
-                            <input type="text" class="text search-input" placeholder="Type here to search..." />
-                        </form>
+                    <li class="nav-item iq-full-screen">
+                        <a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a>
                     </li>
-                    <li class="nav-item iq-full-screen"><a href="#" class="iq-waves-effect" id="btnFullscreen"><i class="ri-fullscreen-line"></i></a></li>
                 </ul>
             </div>
             <ul class="navbar-list">
@@ -76,10 +72,9 @@
                             <div class="iq-card-body p-0 ">
                                 <div class="bg-primary p-3">
                                     <h5 class="mb-0 text-white line-height">Hello {{request.user}}</h5>
-<!--                                    <span class="text-white font-size-12">Available</span>-->
                                 </div>
                                 <div class="d-inline-block w-100 text-center p-3">
-                                    <a class="iq-bg-danger iq-sign-btn" href="/rental_admin/logout/" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                    <a class="iq-bg-danger iq-sign-btn" href="/admin/logout/" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                 </div>
                             </div>
                         </div>
