@@ -117,13 +117,11 @@ class ForgetPassword(View):
 		try : user_obj = User.objects.get(username = data['username'])
 		except: info = 'User is not registered'
 		if user_obj:
-			try:
-				user_obj.check_password(data['old_password'])
+			if user_obj.check_password(data['old_password']):
 				user_obj.set_password(data['new_password'])
 				user_obj.save()
 				info = 'success'
-
-			except:
+			else:
 				info = 'Old password is Incorrect'
 		return JsonResponse({'message':info})
 
