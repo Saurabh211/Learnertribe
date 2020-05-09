@@ -66,7 +66,7 @@ h2 b {
                         <span>
 <!--                            <span class="icon date"></span><span>Date<br>-->
                             <form id="searchForm" method="post">{% csrf_token %}
-                                <input name="filter_date" style="width:90px; color: #5a5a5a;" type="text" id="datepicker" placeholder="mm/dd/yyyy" value="{{filterDate}}"readonly>
+                                <input name="filter_date" style="width:90px; color: #5a5a5a;" type="text" id="datepicker" placeholder="mm/dd/yyyy" readonly>
                                 <input class="d-none" name="subject_id" type="text" value="{{subject.id}}">
                                 <span class="search_btn" onclick="searchClick()">Go</span>
                             </form>

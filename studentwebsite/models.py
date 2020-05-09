@@ -70,8 +70,9 @@ class LiveClass(models.Model):
     live_class_description = models.CharField(max_length=40, null=False, blank=False)
     meeting_id = models.CharField(max_length=200, null=False, blank=False)
     meeting_URL = models.CharField(max_length=400, null=False, blank=False)
-    meeting_start_at = models.DateTimeField(auto_now_add=True)
-    meeting_end_at = models.DateTimeField(auto_now_add=True)
+    meeting_start_at = models.DateTimeField(auto_now_add=False)
+    meeting_end_at = models.DateTimeField(auto_now_add=False)
+    meeting_joining_till = models.DateTimeField(auto_now_add=False,null=True, blank=True)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
