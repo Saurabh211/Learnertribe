@@ -32,7 +32,7 @@ class SubjectVideos(View):
 		vidSubject = Subject.objects.filter(id=id)
 		start_date = datetime.today()
 
-		videos = Video.objects.filter(video_sub__id = id , created_at__date = start_date)
+		videos = Video.objects.filter(video_sub__id = id).order_by('-created_at')[:10]
 		formatted_date = datetime.strftime(start_date, "%m/%d/%Y")
 		return render(request, "studentwebsite/videos.html", {'subject':vidSubject[0],'videos' : videos,'filterDate':formatted_date})
 
@@ -81,7 +81,7 @@ class SubjectAssignments(View):
 		assignSubject = Subject.objects.filter(id=id)
 		start_date = datetime.today()
 
-		assignments = Assignment.objects.filter(assisment_subject__id = id, created_at__date = start_date)
+		assignments = Assignment.objects.filter(assisment_subject__id = id).order_by('-created_at')[:10]
 		formatted_date = datetime.strftime(start_date, "%m/%d/%Y")
 		return render(request, "studentwebsite/assignments.html", {'subject':assignSubject[0], 'assignments':assignments,'filterDate':formatted_date})
 
