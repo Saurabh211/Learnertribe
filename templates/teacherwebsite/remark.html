@@ -1,0 +1,29 @@
+ {% load static %}
+{% include 'authuser/header.html' %}
+
+
+<div id="new-video">
+            <div class="panel panel-default">
+                <!--            <div class="panel-heading">Existing Videos</div>-->
+                <div class="panel-body">
+                    <form class="col-lg-7 col-xl-8" method="post" action="/teacher/{{student.id}}/remark/">{% csrf_token %}
+                        <div class="input-group mb-4">
+                            <label class="form-label">Remark</label>
+                            <input type="text" name="remark" placeholder="Remark" class="from-input" required/>
+
+                            <!--   <label class="error">Enter only alphabets only</label>-->
+                        </div>
+                        <div class="input-group mb-4">
+                            <label class="form-label">Marks</label>
+                            <input type="text" name="marks" placeholder="Marks" class="from-input" required/>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success rounded mt-4" style="width: 100px;">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+  {% include 'authuser/footer.html' %}
