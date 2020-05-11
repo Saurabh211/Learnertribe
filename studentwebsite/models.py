@@ -1,6 +1,6 @@
+from django.contrib.postgres.forms import JSONField
 from django.db import models
 from django.conf import settings
-from rest_framework.fields import JSONField
 
 
 class Institute(models.Model):
