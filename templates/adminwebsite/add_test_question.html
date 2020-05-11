@@ -1,0 +1,139 @@
+{% load static %}
+{% include 'rental_admin/header.html' %}
+
+<div id="content-page" class="content-page">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card-body profile-page p-0">
+                        <div class="profile-header">
+                            <div class="cover-container">
+                                <!--                                        <img src="{{user_obj.profile_image}}" alt="profile-bg" class="rounded img-fluid w-100">-->
+                                <img src="{% static 'rental_admin/images/bg-03.jpg' %}" alt="profile-bg" class="rounded img-fluid w-100">
+                            </div>
+                            <div class="profile-info p-4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-9">
+                                        <div class="user-detail pl-5">
+                                            <div class="d-flex flex-wrap align-items-center">
+                                                <div class="profile-img pr-4">
+                                                    <!--                                                    <img src="{{user_obj.profile_image}}" alt="profile-img" class="avatar-130 img-fluid" />-->
+                                                    <img src="{% static 'rental_admin/images/user/06.jpg' %}" alt="profile-img" class="avatar-130 img-fluid" />
+                                                </div>
+                                                <div class="profile-detail d-flex align-items-center">
+                                                    <h3>{{test.testname }}</h3>
+                                                    <p class="m-0 pl-3"> - {{test.created_at}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3">
+                                        <ul class="nav nav-pills d-flex align-items-end float-right profile-feed-items p-0 m-0">
+                                            <li>
+                                                <a class="nav-link">Add Question</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-lg-12 profile-center">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="profile-profile" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form method="post" id="add_question" class="iq-card iq-card-block iq-card-stretch">
+                                            <div class="iq-card-header d-flex justify-content-between">
+                                                <div class="iq-header-title">
+                                                    <h4 class="card-title">Enter Question Details</h4>
+                                                </div>
+                                            </div>
+                                            <div class="iq-card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Question</h6>
+                                                            <input type="text" placeholder="Enter the Question" name="question" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Option 1</h6>
+                                                            <input type="text" placeholder="Option1" name="option1" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Option 2</h6>
+                                                            <input type="text" placeholder="Option2" name="option2" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Option 3</h6>
+                                                            <input type="text" placeholder="Option3" name="option3" required />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Option 4</h6>
+                                                            <input type="text" placeholder="Option4" name="option4" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Answer Option:</h6>
+                                                            <input type="text" placeholder="Answer option" name="answer" required />
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="mt-2">
+                                                            <h6>Marks</h6>
+                                                            <input type="text" placeholder="Enter the Marks" name="marks" required />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span onclick="add_question({{test.id}})" class="btn btn-primary float-right">ADD</span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%  include 'rental_admin/footer.html' %}
+<script>
+
+function add_question(id){
+ $.ajax({
+      type: 'POST',
+      url: '/admin/add_test_question/'+id+'/',
+      data: $("#add_question").serialize(),
+      dataType: "json",
+      success: function (data) {
+       if (data.message != "success") {
+             }
+             });
+
+}
+
+</script>

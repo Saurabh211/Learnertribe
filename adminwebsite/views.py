@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render
 
 from django.contrib.auth import authenticate,login,logout
@@ -8,7 +9,7 @@ from django.db.models import Count, Q
 from django.shortcuts import redirect,render
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 import csv
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -47,7 +48,8 @@ class LogoutView(View):
 		logout(request)
 		return redirect('learnertribe_admin:login')
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class Dashboard(View):
 	def get(self, request):
 		all_teacher = User.objects.filter(institute = request.user.institute, groups__name = 'teacher')
@@ -57,7 +59,8 @@ class Dashboard(View):
 
 		return render(request,"adminwebsite/dashboard.html" , {'total_teacher_count':total_teacher_count,'total_student_count':total_student_count})
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class TeacherListing(View):
 	def get(self, request):
 		query = request.GET.get('search')
@@ -86,7 +89,7 @@ class TeacherListing(View):
 		return render(request, "adminwebsite/total_teacher.html", {'total_teacher': total_teacher})
 
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class StudentListing(View):
 	def get(self, request):
 		query = request.GET.get('search')
@@ -122,7 +125,8 @@ class Notification(View):
 		student_listing = all_users.filter(institute = request.user.institute, groups__name='student', is_verified=False)[:20]
 		return render(request, "adminwebsite/notification.html", {'teacher_listing': teacher_listing, 'student_listing' : student_listing})
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class LiveClassListing(View):
 	def get(self, request):
 		live_classes = LiveClass.objects.filter(class_room__institute = request.user.institute).order_by('-id')[:20]
@@ -143,13 +147,15 @@ class LiveClassListing(View):
 		LiveClass.objects.create(class_room=liveClassRoom[0], live_class_name=title, live_class_description=description, meeting_URL=meeting_url, meeting_start_at=startTime, meeting_end_at=endTime )
 		return JsonResponse({'message':'success'})
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class LiveClassDelete(View):
 	def get(self, request, id):
 		LiveClass.objects.filter(pk = id).delete()
 		return JsonResponse({'message':'success'})
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class UserDelete(View):
 	def get(self, request, id):
 		User.objects.filter(pk = id).delete()
@@ -163,7 +169,7 @@ class UserDelete(View):
 		return JsonResponse({'message':'success'})
 
 
-@method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class UserDetail(View):
 	def get(self, request, id):
 		user_obj = User.objects.filter(pk=id)
@@ -176,6 +182,35 @@ class UserDetail(View):
 		return JsonResponse({'message': 'success'})
 
 
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
+class AddTest(View):
+	def get(self, request):
+		tests = OnlineTest.objects.filter().order_by('-created_at')[:10]
+		classes = ClassRoom.objects.filter(institute = request.user.institute)
+		return render(request , 'adminwebsite/add_test.html', {'tests' : tests, 'classes' : classes})
+
+	def post(self, request):
+		data = request.POST
+		subject = Subject.objects.filter(subject_name = data['subject'] , class_room__institute = request.user.institute,  class_room__class_code = data['class'] )
+		OnlineTest.objects.create(user = request.user, test_subject = subject, testname = data['test_name'], totalmarks =data['totalmarks'], totalquestion = data['totalquestion'])
+		return redirect('learnertribe_admin:add_test')
+
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
+class AddTestQuestion(View):
+	def get(self, request , id):
+		test = OnlineTest.objects.get(pk = id)
+		return render(request , 'adminwebsite/add_test_question.html', {'test' : test })
+
+	def post(self, request , id):
+		data = request.POST
+		test = OnlineTest.objects.get(pk=id)
+		TestQuestion.objects.create(testname = test, question = data['question'] , option1 = data['option1'], option2 = data['option2']
+		                            , option3 = data['option3'], option4 = data['option4'], answer = data['answer'],  marks = data['marks'])
+		id = data['testname'].id
+		return redirect('/admin/add_test_question/'+id+'/')
+
+
 
 def paginator_class(users_list,page_no,records_per_page = 25):
     paginator = Paginator(users_list,records_per_page)
@@ -186,3 +221,13 @@ def paginator_class(users_list,page_no,records_per_page = 25):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
     return users
+
+
+
+class ChooseSubject(View):
+	def get(self, request , code):
+		import pdb;pdb.set_trace()
+		subject = Subject.objects.filter(class_room__id = code)
+		print(subject)
+		return JsonResponse({"subject" : subject})
+
