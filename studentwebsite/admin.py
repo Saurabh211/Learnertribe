@@ -27,11 +27,11 @@ class LiveClassAdmin(admin.ModelAdmin):
 admin.site.register(LiveClass,LiveClassAdmin)
 
 class AssignmentAdmin(admin.ModelAdmin):
-    list_display = ('assisment_name','assisment_subject','teacher','created_at')
-    list_filter=('assisment_name','assisment_subject','teacher','created_at')
+    list_display = ('assignment_name','assignment_subject','teacher','created_at')
+    list_filter=('assignment_name','assignment_subject','teacher','created_at')
 admin.site.register(Assignment,AssignmentAdmin)
 
 class AssignmentResponseAdmin(admin.ModelAdmin):
-    list_display = ('student','assisment', 'created_at')
-    list_filter=('student','assisment','created_at')
+    list_display = ('student','assignment', 'created_at')
+    list_filter=('student','assignment','created_at')
 admin.site.register(AssignmentResponse,AssignmentResponseAdmin)
