@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from rest_framework.fields import JSONField
 
 
 class Institute(models.Model):
@@ -9,6 +8,7 @@ class Institute(models.Model):
     teacher_code = models.CharField(max_length=100, null=False, blank=False)
     institute_name = models.CharField(max_length=40, null=False, blank=False)
     profile_image = models.FileField(max_length=255,upload_to='static/institute_logo')
+    users_allowed = models.IntegerField(default=200)
     is_verified = models.BooleanField(default=False)
     is_delete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -25,6 +25,7 @@ class ClassRoom(models.Model):
     institute = models.ForeignKey(Institute, on_delete=models.CASCADE)
     class_name = models.CharField(max_length=20, null=False, blank=False)
     class_code = models.CharField(max_length=20, null=False, blank=False)
+
     live_classes = models.BooleanField(default=True)
     videos = models.BooleanField(default=True)
     assignment = models.BooleanField(default=True)
@@ -83,27 +84,26 @@ class LiveClass(models.Model):
         db_table = "liveclass_info"
 
 class Assignment(models.Model):
+    assignment_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     teacher = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    assisment_name = models.CharField(max_length=100, null=False, blank=False)
-    discription = models.CharField(max_length=100, null=False, blank=False)
-    assisment_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    assignment_name = models.CharField(max_length=40, null=False, blank=False)
+    description = models.CharField(max_length=100, null=False, blank=False)
     assignment_pdf = models.FileField(max_length=255,upload_to='static/assignments')
-    is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.assisment_name
+        return self.assignment_name
 
     class Meta:
         db_table = "assignment_info"
 
 class AssignmentResponse(models.Model):
-    assisment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     assignment_pdf = models.FileField(max_length=255,upload_to='static/assignmentsresposne')
-    remark = models.CharField(max_length=40, null=True)
-    marks = models.CharField(max_length=40 , null=True)
+    remark = models.CharField(max_length=40)
+    marks = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -112,40 +112,3 @@ class AssignmentResponse(models.Model):
 
     class Meta:
         db_table = "assignment_response_info"
-
-
-class OnlineTest(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    test_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    testname = models.CharField(max_length=40)
-    totalmarks = models.CharField(max_length=25, null=True)
-    totalquestion = models.CharField(max_length=25, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_verified = models.BooleanField(default=False)
-
-    class Meta:
-        db_table = "online_test"
-
-
-class TestQuestion(models.Model):
-    testname = models.ForeignKey(OnlineTest, on_delete=models.CASCADE)
-    question = models.CharField(max_length=400)
-    option1 = models.CharField(max_length=200)
-    option2 = models.CharField(max_length=200)
-    option3 = models.CharField(max_length=200)
-    option4 = models.CharField(max_length=200)
-    answer = models.CharField(max_length=25)
-    marks = models.IntegerField()
-
-    class Meta:
-        db_table = "test_questions"
-
-
-class StudentTestResponse(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    student_answer = JSONField()
-    obtainedmarks = models.IntegerField(null=True)
-
-    class Meta:
-        db_table = "student_answer"
-

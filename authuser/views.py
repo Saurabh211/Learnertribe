@@ -78,7 +78,7 @@ class Login(View):
 
 			class_list = ClassRoom.objects.filter(institute__institute_code=institute_code)
 
-			return render(request, "authuser/signup.html" , {'institute_code' : institute.institute_code, 'class_list':class_list})
+			return render(request, "authuser/signup.html" , {'institute_code' : institute, 'class_list':class_list})
 
 	def post(self, request, institute_code):
 		data = request.POST
@@ -109,29 +109,6 @@ class Login(View):
 class ResetPasswordForm(View):
 	def get(self, request, user_id, *args, **kwargs):
 		return render(request, "user/reset_password.html", {'user_id': user_id})
-
-
-class ForgetPassword(View):
-	def post(self, request):
-		data = request.POST
-		info = ''
-		try : user_obj = User.objects.get(username = data['username'])
-		except:
-			user_obj = ''
-			info = 'User is not registered'
-		if user_obj:
-			if user_obj.check_password(data['old_password']):
-				user_obj.set_password(data['new_password'])
-				user_obj.readable_password = data['new_password']
-				user_obj.save()
-				info = 'success'
-			else:
-				info = 'Old password is Incorrect'
-		return JsonResponse({'message':info})
-
-
-
-
 
 def logout_view(request):
 	if request.user.is_authenticated:

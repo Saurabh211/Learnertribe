@@ -69,7 +69,7 @@ class AddAssignment(View):
 		query = request.GET.get('start_date')
 
 		start_date = datetime.now()
-		assignment =  Assignment.objects.filter(assisment_subject__id = id, created_at__date = start_date)
+		assignment =  Assignment.objects.filter(assignment_subject__id = id, created_at__date = start_date)
 		return render(request, "teacherwebsite/add_assignment.html", {'subject' : subject , 'assignment' : assignment})
 
 	def post(self, request, id):
@@ -78,27 +78,6 @@ class AddAssignment(View):
 		except : assignment_pdf = ''
 		id = data['id']
 		subject = Subject.objects.get(pk=id)
-		Assignment.objects.create(assisment_subject = subject, discription = data['discription'], assisment_name = data['assignment_name'], assignment_pdf = assignment_pdf , teacher = request.user)
+		Assignment.objects.create(assignment_subject = subject, description = data['description'], assignment_name = data['assignment_name'], assignment_pdf = assignment_pdf , teacher = request.user)
 		return redirect('/teacher/'+id+'/add_assignment')
-
-
-class ResponseAssignment(View):
-	def get(self, request, id):
-		responses = AssignmentResponse.objects.filter(assisment__id = id)
-		return render(request , "teacherwebsite/response_assignment.html" , {'responses' : responses})
-
-
-class Remark(View):
-	def get(self, request, id):
-		student = AssignmentResponse.objects.filter(student__id = id)
-		return render(request , "teacherwebsite/remark.html" , {'student' : student[0]})
-
-	def post(self, request, id):
-		data = request.POST
-		instance = AssignmentResponse.objects.get(pk = id)
-		id = instance.assisment.id
-		instance.remark = data.get('remark' , instance.remark)
-		instance.marks = data.get('marks' , instance.marks)
-		instance.save()
-		return redirect('/teacher/'+id+'/assignment_response/')
 

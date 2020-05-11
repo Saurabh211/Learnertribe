@@ -27,6 +27,7 @@ class StudentSubject(View):
 class SubjectVideos(View):
 
 	def get(self, request, id):
+		#import pdb; pdb.set_trace();
 
 		vidSubject = Subject.objects.filter(id=id)
 		start_date = datetime.today()
@@ -80,7 +81,7 @@ class SubjectAssignments(View):
 		assignSubject = Subject.objects.filter(id=id)
 		start_date = datetime.today()
 
-		assignments = Assignment.objects.filter(assisment_subject__id = id).order_by('-created_at')[:10]
+		assignments = Assignment.objects.filter(assignment_subject__id = id).order_by('-created_at')[:10]
 		formatted_date = datetime.strftime(start_date, "%m/%d/%Y")
 		return render(request, "studentwebsite/assignments.html", {'subject':assignSubject[0], 'assignments':assignments,'filterDate':formatted_date})
 
@@ -94,10 +95,10 @@ class SubjectAssignmentsMore(View):
 			filter_date = data['filter_date']
 
 			start_date = datetime.strptime((filter_date), "%m/%d/%Y").date()
-			assignments = Assignment.objects.filter(assisment_subject__id=subject_id, created_at__date=start_date)
+			assignments = Assignment.objects.filter(assignment_subject__id=subject_id, created_at__date=start_date)
 			assignmentList = []
 			for v in assignments:
-				assignmentList.append({'id':v.id, 'assisment_name':v.assisment_name})
+				assignmentList.append({'id':v.id, 'assisment_name':v.assignment_name})
 			status = "Success"
 		except:
 			status = "Error"
@@ -112,32 +113,5 @@ class AssignmentDetail(View):
 		assignments = Assignment.objects.filter(pk=id)
 		try : answersheet = requset.FILES['answersheet']
 		except : answersheet = ''
-		AssignmentResponse.objects.create(assisment = assignments[0], student = requset.user, assignment_pdf = answersheet)
+		AssignmentResponse.objects.create(assignment = assignments[0], student = requset.user, assignment_pdf = answersheet)
 		return render(requset, 'studentwebsite/dashbord.html')
-
-
-class OnlineTest(View):
-	def get(self, request, id):
-		questions = TestQuestion.objects.filter(testname__id = id)
-		return render(request , 'studentwebsite/dashbord.html' , {'questions' : questions })
-
-	def post(self,request):
-		data = request.POST
-		question = data['question']
-		answer = data['answer']
-		marks = int(data['marks'])
-		question_answer = data['question_answer']
-		if answer == question_answer:
-			obtained_marks = marks
-		else:
-			obtained_marks = 0
-		try : data = StudentTestResponse.objects.get(user = request.user)
-		except : data = ''
-		if data:
-			data.student_answer[question] = answer
-			data.obtainedmarks += obtained_marks
-			data.save()
-		else:
-			dict = {}
-			dict[question] = answer
-			StudentTestResponse.objects.create(student_answer = dict , user = request.user , obtainedmarks = obtained_marks)

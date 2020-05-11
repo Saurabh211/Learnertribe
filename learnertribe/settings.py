@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'authuser.apps.AuthuserConfig',
     'studentwebsite',
     'teacherwebsite',
-    'adminwebsite',
 ]
 
 MIDDLEWARE = [
@@ -83,12 +82,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'foremaij_Learner_Tribe',
-        # 'USER':'root',
-        # 'PASSWORD':'Krishna@1',
-        # 'HOST': 'pi',
-        # 'PORT': '3306',
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'foremaij_Learner_Tribe',
+        #'USER':'root',
+        #'PASSWORD':'Krishna@1',
+        #'HOST': 'pi',
+        #'PORT': '3306',
     }
 }
 

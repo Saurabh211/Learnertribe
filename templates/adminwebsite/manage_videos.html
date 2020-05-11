@@ -1,0 +1,296 @@
+{% include 'adminwebsite/header.html' %}
+{% include 'adminwebsite/left_nav.html' %}
+<div id="content-page" class="content-page">
+            <div class="container-fluid">
+            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="iq-card">
+                            <div class="iq-card-header d-flex justify-content-between">
+                                <div class="iq-header-title">
+                                    <h4 class="card-title">Manage Videos</h4>
+                                </div>
+                            </div>
+                            <div class="iq-card-body">
+                                <ul class="nav nav-tabs mb-0" id="myTab-1" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Search Existing</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Upload New</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent-2">
+                                    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <br/>
+                                        <h4>Search videos using filters</h4>
+                                        <form method="get" action="/admin/manage_videos/"
+                                              class="mr-3 position-relative">
+                                            <div class="row justify-content-between mt-1">
+                                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                                    <div class="dataTables_filter">
+
+                                                        <div class="form-group mb-0">
+                                                            <label for="classInputSearch">Class</label>
+                                                            <select name="class_id" class="form-control mb-0"
+                                                               id="classInputSearch" onchange="getSubjectListing();">
+                                                                <option value="">--None--</option>
+                                                                {% for class_room in all_classes %}
+                                                                <option value="{{class_room.id}}">{{class_room.class_name}}</option>
+                                                                {% endfor %}
+                                                            </select><br>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                                    <div class="dataTables_filter">
+
+                                                        <div class="form-group mb-0">
+                                                            <label for="subjectInputSearch">Subject</label>
+                                                            <select name="subject_id" class="form-control mb-0"
+                                                               id="subjectInputSearch">
+                                                                <option value="">--None--</option>
+                                                                {% for class_subject in all_subjects %}
+                                                                <option value="{{class_subject.id}}">{{class_subject.subject_name}}</option>
+                                                                {% endfor %}
+                                                            </select><br>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6 col-lg-4">
+                                                    <div>&nbsp;</div>
+                                                    <button type="submit" class="btn btn-primary mt-2"
+                                                            id="searchInput"
+                                                            aria-controls="user-list-table">Search
+                                                    </button>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="table-responsive" style="margin-top: -1px">
+                                            {% if total_video %}
+                                            <table class="table mb-0  table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Class</th>
+                                                    <th>Subject</th>
+                                                    <th>Uploaded Time</th>
+                                                    <th>Videos Key</th>
+                                                    <th>Watch Videos</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tbody>
+                                                    {% for video in total_video %}
+                                                    <tr>
+                                                        <td>{{video.video_name}}</td>
+                                                        <td>{{video.video_sub.class_room.class_name}}</td>
+                                                        <td>{{video.video_sub.subject_name}}</td>
+                                                        <td>{{video.created_at|date:"D d M Y" }} {{ video.created_at|time:"H:i" }}</td>
+                                                        <td>{{video.video_url}}</td>
+                                                        <td><a href="https://www.youtube.com/embed/{{video.video_url}}" target="_blank" class="btn btn-primary">Watch</a></td>
+                                                        <td>
+                                                            <div class="flex align-items-center list-user-action">
+                                                                <a data-toggle="tooltip" data-placement="top" title=""
+                                                                   data-original-title="Delete" href="javascript:;"
+                                                                   onclick="video_delete({{video.id}})"><i
+                                                                        class="ri-delete-bin-line"></i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            {% else %}
+                                            <br>
+                                            <h2>No videos to show</h2>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                        <div class="table-responsive" style="margin-top: -1px">
+                                            <div class="sign-in-from">
+                                                <h3 class="mt-2 mb-0">Upload New Video</h3>
+                                                <form class="mt-4" method="post" id="login">{% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="classInputCreate">Class</label>
+                                                        <select name="classname" class="form-control mb-0"
+                                                               id="classInputCreate" onchange="getSubjectListingCreate();">
+                                                            <option value="">-- NONE --</option>
+                                                            {% for class_room in all_classes %}
+                                                            <option value="{{class_room.id}}">{{class_room.class_name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="subjectInputCreate">Class</label>
+                                                        <select name="subjectname" class="form-control mb-0"
+                                                               id="subjectInputCreate">
+                                                            <option value="">-- NONE --</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="videoname">Name</label>
+                                                        <input type="text" name="videoname" class="form-control mb-0"
+                                                               id="videoname" placeholder="Video Title" maxlength="40">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="videokey">Video Key</label>
+                                                        <input type="text" name="videokey" class="form-control mb-0"
+                                                               id="videokey" maxlength="40">
+                                                        <label style="font-size:12px">Note: Provide only video key not whole URL</label>
+                                                    </div>
+                                                    <div class="d-inline-block w-100">
+                                                        <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
+                                                        </div>
+                                                        <span onclick="createVideo()" class="btn btn-primary float-right">Submit</span>
+
+                                                        <label id="video_error" class="error"
+                                                               style="font-size:12px"></label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+{%  include 'adminwebsite/footer.html' %}
+
+<script>
+    $(function(){
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const class_id = urlParams.get('class_id');
+        const subject_id = urlParams.get('subject_id');
+
+        $("#classInputSearch").val(class_id);
+        $("#subjectInputSearch").val(subject_id);
+    });
+
+    function createVideo(){
+        var isValid = true;
+        $("#video_error").text("");
+
+        $('#classInputCreate').removeClass('is-invalid');
+        if( $('#classInputCreate').val().trim().length > 0 ){
+            $('#classInputCreate').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#classInputCreate').addClass('is-invalid');
+        }
+
+        $('#subjectInputCreate').removeClass('is-invalid');
+        if( $('#subjectInputCreate').val().trim().length > 0 ){
+            $('#subjectInputCreate').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#subjectInputCreate').addClass('is-invalid');
+        }
+
+        $('#videoname').removeClass('is-invalid');
+        if( $('#videoname').val().trim().length > 0 ){
+            $('#videoname').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#videoname').addClass('is-invalid');
+        }
+
+        $('#videokey').removeClass('is-invalid');
+        if( $('#videokey').val().trim().length > 0 ){
+            $('#videokey').addClass('is-valid');
+        }else{
+            isValid = false;
+            $('#videokey').addClass('is-invalid');
+        }
+
+        if( isValid ){
+            $.ajax({
+                type: 'POST',
+                url: '/admin/video_action/',
+                data: {
+                    "action": "Create",
+                    "class": $('#classInputCreate').val(),
+                    "subect": $('#subjectInputCreate').val(),
+                    "name": $('#videoname').val(),
+                    "key": $('#videokey').val(),
+                    "csrfmiddlewaretoken": '{{ csrf_token }}'
+                },
+                dataType: "json",
+                success: function(data) {
+                    location.reload();
+                },
+                error: function (jqXHR, exception) {
+                    $("#video_error").text("something went wrong, try again");
+                }
+            });
+        }
+    }
+
+    function getSubjectListing() {
+        var classId = $("#classInputSearch").val();
+        if( classId.length > 0 ){
+            $.ajax({
+                type: 'GET',
+                url: '/admin/subject_listing/' + classId + '/',
+                dataType: "json",
+                success: function(data) {
+                    var optionsHtml = '<option value="">--None--</option>';
+                    var subjects = data.subject_list;
+                    for( var i=0; i<subjects.length; i++ ){
+                        optionsHtml += '<option value="'+subjects[i].id+'">'+subjects[i].subject_name+'</option>';
+                    }
+
+                    $("#subjectInputSearch").html(optionsHtml);
+                }
+            });
+        }
+    }
+
+    function getSubjectListingCreate() {
+        var classId = $("#classInputCreate").val();
+        if( classId.length > 0 ){
+            $.ajax({
+                type: 'GET',
+                url: '/admin/subject_listing/' + classId + '/',
+                dataType: "json",
+                success: function(data) {
+                    var optionsHtml = '<option value="">--None--</option>';
+                    var subjects = data.subject_list;
+                    for( var i=0; i<subjects.length; i++ ){
+                        optionsHtml += '<option value="'+subjects[i].id+'">'+subjects[i].subject_name+'</option>';
+                    }
+
+                    $("#subjectInputCreate").html(optionsHtml);
+                }
+            });
+        }
+    }
+
+    function video_delete(id) {
+        $.ajax({
+            type: 'POST',
+            url: '/admin/video_action/',
+            data: {
+                "action": "Delete",
+                "video_id": id,
+                "csrfmiddlewaretoken": '{{ csrf_token }}'
+            },
+            dataType: "json",
+            success: function(data) {
+                location.reload();
+            },
+            error: function (jqXHR, exception) {
+                alert("something went wrong, try again");
+            }
+        });
+    }
+</script>

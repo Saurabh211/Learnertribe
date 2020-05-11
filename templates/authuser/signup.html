@@ -35,7 +35,7 @@
     #spinner-overlay {
       background: #ffffff;
       color: #666666;
-     ` position: fixed;
+      position: fixed;
       height: 100%;
       width: 100%;
       z-index: 5000;
@@ -98,7 +98,7 @@
                                class="from-input" required/>
                         <span onclick="passwordSHOWs()"></span>
                     </div>
-                    <a href="javascript:;" class="show-forgot ml-auto">Forgot Password?</a>
+
                     <div class="input-group checkbox mb-3">
                         <div class="btn btn-success rounded login_action_button" onclick="login()">
                             <span class="loading_spinner spinner-border spinner-border-sm d-none" role="status"
@@ -211,64 +211,12 @@
             </form>
         </div>
     </div>
-
-<!--    forget password
--->
-    <div id="forgot" class="tab-login" style="display: none">
-                <div class="row align-items-center">
-                    <div class="col-md-5 col-lg-6 mb-4">
-                        <h1 class="text-white text-center text-md-left px-3">Reset Password?</h1>
-                        <p class="text-white text-center text-md-left px-3">Enter the email address you used to register for your account.</p>
-
-                    </div>
-                    <div class="col-md-7 col-lg-6">
-                        <form class="login-box bg-white p-2 p-sm-4 p-xl-5 rounded" id="ForgetPassword" method="post">{% csrf_token %}
-                            <div class="d-flex mb-4">
-                                <img src="{% static 'img/forgot_password.jpg' %}" alt="otl" class="d-block mx-auto">
-                            </div>
-                            <div class="form-style px-3">
-                                <div class="input-group mb-4">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" name="username" id="usernames" placeholder="Enter Emailaddress" class="from-input" required />
-                                </div>
-                                <div class="input-group mb-4">
-                                    <label class="form-label">Old Password</label>
-                                    <input type="password" name="old_password" id="old_password" placeholder="Old Password" class="from-input" required />
-                                    <span onclick="passwordSHOWs()"></span>
-                                </div>
-                                <div class="input-group mb-4">
-                                    <label class="form-label">New Password</label>
-                                    <input type="password" name="new_password" id="new_password" placeholder="New Password" class="from-input" required />
-                                    <span onclick="passwordSHOWs()"></span>
-                                </div>
-                                <div class="input-group mb-4">
-                                    <label class="form-label">Confirm Password</label>
-                                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm Password" class="from-input" required />
-                                    <span onclick="passwordSHOWs()"></span>
-                                </div>
-                                <label id="forget-error" class="error" style="font-size:12px"></label>
-                                <div class="input-group mb-3">
-                                    <span class="btn btn-success rounded" onclick="forget_pass()">Submit</span>
-                                </div>
-                                <p class="px-3 text-center">
-                                    <a href="javascript:;" class="show-login" style="text-decoration: underline;"><strong>Login</strong>
-                                    </a>
-                                    &nbsp;&nbsp;or&nbsp;&nbsp;
-                                    <a href="javascript:;" class="show-signup" style="text-decoration: underline;"><strong>Sign Up</strong>
-                                    </a>
-
-                                </p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
 </div>
 
 {% include 'authuser/footer.html' %}
 
 <script>
-    var instituteCode = '{{institute_code}}';
+    var instituteCode = '{{institute_code.institute_code}}';
 
     function login() {
         $(".login-error-container").addClass('d-none');
@@ -368,34 +316,25 @@
     };
 
     function forget_pass() {
-        var data = $("#new_password").val();
-        var data1 = $("#confirm_password").val();
-        if (data != data1) {
-            alert('Password and Confirm Password is not same')
-            }
-        else {
+        if ($("#ForgetPassword").valid()) {
+            $('body').addClass("loaders");
             $.ajax({
                 type: 'POST',
                 url: '/auth/forget_password/',
                 data: $("#ForgetPassword").serialize(),
                 dataType: "json",
                 success: function(data) {
-                    if (data.message != "success") {
-                        $("#forget-error").text(data.message);
-                        $("#forget-error").show();
+                    if (data.message != "Successfully registered.") {
+                        $('body').removeClass("loaders");
+                        $("#forget-email-error").text(data.message);
+                        $("#forget-email-error").show();
                         return false;
                     } else {
-                        $(".tab-login").hide()
-                        $("#login").show();
+                        window.location.href = "/webuser/login/"
                     }
-                },
-                error: function (jqXHR, status, err) {
-                    hideSpinner();
-                    $(".signup-error-container").removeClass('d-none');
-                    $(".signup-error-container").text("Something went wrong try again.");
-                },
+                }
             });
-            }
+        }
     };
 
 
