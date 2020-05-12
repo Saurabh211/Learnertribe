@@ -9,5 +9,5 @@ urlpatterns = [
 	path('<int:id>/add_videos/', AddVideos.as_view(), name='add_videos'),
 	path('<int:id>/add_assignment/', AddAssignment.as_view(), name='add_assignment'),
 	path('<int:id>/assignment_response/', ResponseAssignment.as_view(), name='assignment_response'),
-	# path('<int:id>/remark/', Remark.as_view(), name='remark'),
+	path('<int:id>/remark/', Remark.as_view(), name='remark'),
 ]

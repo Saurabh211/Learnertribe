@@ -64,6 +64,7 @@ class AddVideos(View):
 
 @method_decorator(login_required(login_url = '/auth/login/000001/'),name = 'dispatch')
 class AddAssignment(View):
+	
 	def get(self, request, id):
 		subject = Subject.objects.get(pk = id)
 		query = request.GET.get('start_date')
@@ -83,6 +84,7 @@ class AddAssignment(View):
 
 
 class ResponseAssignment(View):
+
 	def get(self, request, id):
 		responses = AssignmentResponse.objects.filter(assisment__id = id)
 		return render(request , "teacherwebsite/response_assignment.html" , {'responses' : responses})
@@ -90,6 +92,7 @@ class ResponseAssignment(View):
 
 class Remark(View):
 	def get(self, request, id):
+
 		student = AssignmentResponse.objects.filter(student__id = id)
 		return render(request , "teacherwebsite/remark.html" , {'student' : student[0]})
 

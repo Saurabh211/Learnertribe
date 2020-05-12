@@ -184,6 +184,7 @@ class UserDetail(View):
 
 @method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class AddTest(View):
+
 	def get(self, request):
 		tests = OnlineTest.objects.filter().order_by('-created_at')[:10]
 		classes = ClassRoom.objects.filter(institute = request.user.institute)
@@ -198,6 +199,7 @@ class AddTest(View):
 
 @method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
 class AddTestQuestion(View):
+
 	def get(self, request , id):
 		test = OnlineTest.objects.get(pk = id)
 		return render(request , 'adminwebsite/add_test_question.html', {'test' : test })
@@ -225,6 +227,7 @@ def paginator_class(users_list,page_no,records_per_page = 25):
 
 
 class ChooseSubject(View):
+
 	def get(self, request , code):
 		import pdb;pdb.set_trace()
 		subject = Subject.objects.filter(class_room__id = code)
