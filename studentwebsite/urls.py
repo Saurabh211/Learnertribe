@@ -10,5 +10,5 @@ urlpatterns = [
 	path('<int:id>/assignments/', SubjectAssignments.as_view(), name='student_assignments'),
 	path('assignments/more/', SubjectAssignmentsMore.as_view(), name='videos_more'),
 	path('<int:id>/assignment_detail/', AssignmentDetail.as_view(), name='assignment_detail'),
-	# path('<int:id>/playvideo/', PlayVideo.as_view(), name='playvideo'),
+	path('<int:id>/playvideo/', PlayVideo.as_view(), name='playvideo'),
 ]
