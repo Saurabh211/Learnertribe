@@ -220,7 +220,6 @@ class VideoListing(View):
 
 @method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
 class AssignmentListing(View):
-
 	def get(self, request):
 		class_id = request.GET.get('class_id')
 		subject_id = request.GET.get('subject_id')
@@ -255,6 +254,11 @@ class AssignmentListing(View):
 
 			assignment_sub = Subject.objects.filter(pk=subject)
 			Assignment.objects.create(assignment_subject = assignment_sub [0], assignment_name = name, description = desc, teacher = request.user, assignment_pdf = assignment_pdf )
+			return JsonResponse({'message': 'success'})
+
+		else:
+			assignment_id = request.POST['assignment_id']
+			Assignment.objects.filter(pk=assignment_id).delete()
 			return JsonResponse({'message': 'success'})
 
 
