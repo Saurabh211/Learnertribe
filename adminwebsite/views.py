@@ -278,3 +278,14 @@ def paginator_class(users_list,page_no,records_per_page = 25):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
     return users
+
+
+
+
+class ChooseSubject(View):
+	def get(self, request , code):
+		import pdb;pdb.set_trace()
+		subject = Subject.objects.filter(class_room__id = code)
+		# print(subject)
+		return JsonResponse({"subject" : subject})
+

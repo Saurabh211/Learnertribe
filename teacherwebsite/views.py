@@ -9,7 +9,7 @@ from studentwebsite.models import *
 
 @method_decorator(login_required(login_url = '/auth/login/000001/'),name = 'dispatch')
 class TeacherDashbord(View):
-	def get(self, request, *args, **kwargs):
+	def get(self, request):
 		return render(request, "teacherwebsite/dashbord.html")
 
 
