@@ -15,7 +15,9 @@ urlpatterns = [
     path('liveclass_add/', LiveClassListing.as_view(), name = 'liveclass_add'),
     path('liveclass_delete/<int:id>/', LiveClassDelete.as_view(), name = 'liveclass_delete'),
     path('notifications/', Notification.as_view(), name='notifications'),
-    path('add_test/', AddTest.as_view(), name='add_test'),
-    path('add_test_question/<int:id>', AddTestQuestion.as_view(), name='add_test_question'),
-    path('subject/<slug:code>/', ChooseSubject.as_view(), name='subject'),
+    path('manage_videos/', VideoListing.as_view(), name = 'videos_listing'),
+    path('video_action/', VideoListing.as_view(), name = 'videos_listing_action'),
+    path('manage_assignments/', AssignmentListing.as_view(), name = 'assignments_listing'),
+    path('assignment_action/', AssignmentListing.as_view(), name = 'assignment_listing_action'),
+    path('subject_listing/<int:id>/', SubjectListing.as_view(), name = 'subject_listing'),
 ]
