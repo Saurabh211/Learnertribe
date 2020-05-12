@@ -8,7 +8,7 @@ class User(AbstractUser):
 	class_room = models.ForeignKey(ClassRoom, on_delete=models.CASCADE,null=True, blank=True)
 	full_name = models.CharField(max_length=100, null=False, blank=False)
 	mobile_number = models.CharField(max_length=20, null=False, blank=False)
-	readable_password = models.CharField(max_length=40, null=True, blank=True)
+	readable_password = models.CharField(max_length=45, null=True, blank=True)
 	is_verified = models.BooleanField(default=False)
 	is_deleted = models.BooleanField(default=False)
 	created_at = models.DateTimeField(auto_now_add = True)

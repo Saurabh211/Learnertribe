@@ -119,7 +119,7 @@ class OnlineTest(models.Model):
     test_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     testname = models.CharField(max_length=40)
     totalmarks = models.CharField(max_length=25, null=True)
-    totalquestion = models.CharField(max_length=25, null=True)
+    totalquestion = models.CharField(max_length=45, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_verified = models.BooleanField(default=False)
 

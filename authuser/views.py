@@ -126,7 +126,7 @@ class ForgetPassword(View):
 				user_obj.save()
 				info = 'success'
 			else:
-				info = 'Old password is Incorrect'
+				info = 'Old Password Is Incorrect'
 		return JsonResponse({'message':info})
 
 

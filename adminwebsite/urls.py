@@ -17,5 +17,5 @@ urlpatterns = [
     path('notifications/', Notification.as_view(), name='notifications'),
     path('add_test/', AddTest.as_view(), name='add_test'),
     path('add_test_question/<int:id>', AddTestQuestion.as_view(), name='add_test_question'),
-    # path('subject/<slug:code>/', ChooseSubject.as_view(), name='subject'),
+    path('subject/<slug:code>/', ChooseSubject.as_view(), name='subject'),
 ]
