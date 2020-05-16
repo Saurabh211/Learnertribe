@@ -91,7 +91,7 @@
                                                         <td>{{assignment.assignment_subject.subject_name}}</td>
                                                         <td>{{assignment.description}}</td>
                                                         <td>{{assignment.created_at|date:"D d M Y" }} {{ assignment.created_at|time:"H:i" }}</td>
-                                                        <td><a href="/media/{{assignment.assignment_pdf}}" target="_blank" class="btn btn-primary">Download</a></td>
+                                                        <td><a href="{{assignment.assignment_pdf.url}}" target="_blank" class="btn btn-primary">Download</a></td>
                                                         <td>
                                                             <div class="flex align-items-center list-user-action">
                                                                 <a data-toggle="tooltip" data-placement="top" title=""

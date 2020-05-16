@@ -7,6 +7,7 @@ from django.views import View
 
 from studentwebsite.models import *
 from authuser.models import User
+from django.views.decorators.cache import never_cache
 
 
 class Home(View):
@@ -110,6 +111,7 @@ class ResetPasswordForm(View):
 	def get(self, request, user_id, *args, **kwargs):
 		return render(request, "user/reset_password.html", {'user_id': user_id})
 
+@never_cache
 def logout_view(request):
 	if request.user.is_authenticated:
 		institute_id = request.user.institute.institute_code

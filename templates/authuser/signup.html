@@ -2,15 +2,78 @@
 {% include 'authuser/onlyResourcesHeader.html' %}
 
 <style type="text/css">
+    body {font-family: Arial, Helvetica, sans-serif;}
+
+    .green-theme{
+        background: rgb(62,148,46);
+        background-image: linear-gradient(to bottom, #38852a, #4f9841, #65aa58, #7bbe6f, #91d186);
+    }
+
+    .green-theme .lt-palletes{
+        background-color: #efffeb;
+        border: 1px solid #bfbfbf;
+    }
+
+    .green-theme .lt-institute-name{
+        color:#FFF;
+        margin: 5% auto 10% auto;
+        text-transform: uppercase;
+    }
+
+    .green-theme .submit-button {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .blue-theme{
+        background-image: linear-gradient(to bottom, #536987, #5e7696, #6983a6, #7490b6, #7f9ec6);
+        background-image: url(/static/img/e-learning.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: top;
+    }
+
+    .blue-theme .lt-palletes{
+        background-color: #f4f8ff;
+        border: 1px solid #bfbfbf;
+    }
+
+    .blue-theme .lt-institute-name{
+        color:#FFF;
+        margin: 5% auto 10% auto;
+        text-transform: uppercase;
+    }
+
+    .blue-theme .submit-button {
+        background-color: #2d5180;
+        color: white;
+    }
+
+    .container{
+        padding:5%;
+        max-width: none;
+    }
+    .imgcontainer {
+      margin: 1% auto 20px auto;
+      width: 95%;
+      max-width: 350px;
+      text-align:center;
+    }
+
+    img.avatar {
+      width: 95%;
+      border-radius: 10px;
+      border: 1px solid #656565;
+      box-shadow: 0px 0px 10px #cacacaa8;
+    }
 	.login-form {
-		width: 340px;
-    	margin: 50px auto;
+		margin: 3% auto 10% auto;
+        width: 95%;
+        max-width: 350px;
 	}
     .login-form form {
-    	margin-bottom: 15px;
-        background: #f7f7f7;
-        box-shadow: 0px 5px 15px #DDD;
-        padding: 30px;
+    	background: #f7f7f7;
+        padding: 3%;
     }
     .login-form h2 {
         margin: 0 0 15px;
@@ -23,15 +86,29 @@
         text-overflow: ellipsis;
         overflow: hidden;
     }
+    .switch-form-container{
+        padding: 10% 5% 4% 7%;
+        background-color: #e8e8e8;
+    }
+    .input-group .from-input {
+        padding: 5px;
+    }
+    .submit-button{
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 10px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+    }
 
     .disabled_action{
         border-color: #DDDDDD !important;
         background: linear-gradient(90deg, rgb(99, 99, 99) 0%, rgb(99, 99, 99) 100%) !important;
     }
-    .container{
-        padding-right: 5px;
-        padding-left: 5px;
-    }
+
     #spinner-overlay {
       background: #ffffff;
       color: #666666;
@@ -67,23 +144,26 @@
 </style>
 
 
-<div class="container">
-    <div id="spinner-overlay" style="display:none;">
-        <div class="spinner"></div>
+<div class="container blue-theme">
+    <div class="imgcontainer">
+        <img src="{{institute_code.profile_image.url}}" alt="Avatar" class="avatar">
+
+        <!--<h4 class="lt-institute-name">{{institute_code.institute_name}}</h4>-->
     </div>
 
-    <!--                login section-->
     <div id="login" class="tab-login" style="display: block">
         <div class="login-form">
-            <form id="LoginForm" method="post">
-                {% csrf_token %}
-                <img class="logo_img mt-1 mb-4 rounded mx-auto d-block" src="/{{institute_code.profile_image}}"
-                     class="img mr-3" alt="LOGO">
+            <form id="LoginForm" class="lt-palletes" method="post">{% csrf_token %}
 
-                <h2 class="mb-2 text-center">Log In</h2><br>
+                <h4 class="mb-4 text-center">Log In</h4>
                 <div class="form-style px-2">
                     <div class="alert alert-danger login-error-container d-none" role="alert">
                         <label id="registered-login-error" class="error" style="font-size:12px"></label>
+                    </div>
+                    <div class="alert alert-success login-success-container d-none" role="alert">
+                        <div class="text-center">
+                            Authentication successful !! <br/>Moving you to dashboard.
+                        </div>
                     </div>
                     <div class="input-group mb-4 form-group">
                         <label class="form-label">Email</label>
@@ -99,52 +179,35 @@
                         <span onclick="passwordSHOWs()"></span>
                     </div>
 
-                    <div class="input-group checkbox mb-3">
-                        <div class="btn btn-success rounded login_action_button" onclick="login()">
-                            <span class="loading_spinner spinner-border spinner-border-sm d-none" role="status"
-                                  aria-hidden="true"></span>
-                            <span class="align-middle">Login</span>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-success login-success-container d-none" role="alert">
-                        <div class="text-center">
-                            Authentication successful !! <br/>Moving you to dashboard.
-                        </div>
+                    <div class="submit-button" onclick="login()">
+                        <span class="align-middle">Login</span>
                     </div>
                 </div>
-
-                <p class="px-3 text-center">
-                    <a href="javascript:;" class="show-signup" style="text-decoration: underline;">Don't have an
-                        account? <strong>Register</strong>
-                    </a>
-                </p>
-                <input type="hidden" id="registeration_source" name="registeration_source" value="normal">
             </form>
+            <div class="switch-form-container text-right">
+                <span class="show-signup">SIGN UP</span>
+            </div>
         </div>
     </div>
 
-    <!--                Sign up section -->
+
     <div id="sign_up" class="tab-login" style="display: none">
         <div class="login-form">
-            <form id="SignUpForm" method="post">
-                {% csrf_token %}
-                <img class="logo_img mt-1 mb-4 rounded mx-auto d-block" src="/{{institute_code.profile_image}}"
-                     class="img mr-3" alt="LOGO">
+            <form id="SignUpForm" class="lt-palletes" method="post">{% csrf_token %}
 
-                <h2 class="mt-0">Sign up as:</h2>
-                <div class="d-flex my-4 px-3">
-                    <div>
-                        <label for="student" class="login-tab cust-tab active d-flex align-items-center"><input
-                                type="radio" name="user_role" id="student" value="student" checked="checked"/><span
-                                class="icon merchant mr-1"></span>Student</label>
+                <h4 class="mb-4 text-center">Sign Up</h4>
+                <div class="d-flex mt-1 mb-2">
+                    <div class="mx-2 mx-lg-3">
+                        <label for="student" class="login-tab cust-tab active d-flex align-items-center">
+                            <input type="radio" name="user_role" id="student" value="student" checked="checked"/>
+                            <span class="icon merchant mr-1"></span>Student
+                        </label>
                     </div>
                     <div class="mx-2 mx-lg-3">
-                        <label for="teacher" class=" login-tab cust-tab d-flex align-items-center"> <input type="radio"
-                                                                                                           name="user_role"
-                                                                                                           id="teacher"
-                                                                                                           value="teacher"/><span
-                                class="icon customer mr-1"></span>Teacher</label>
+                        <label for="teacher" class=" login-tab cust-tab d-flex align-items-center">
+                            <input type="radio" name="user_role" id="teacher" value="teacher"/>
+                            <span class="icon customer mr-1"></span>Teacher
+                        </label>
                     </div>
                 </div>
 
@@ -190,12 +253,13 @@
                     </div>
                     <div class="input-group checkbox mb-3">
                         <input type="checkbox" name="tnc_signup" id="tnc_signup"/>
-                        <label class="form-label" for="tnc_signup" style="font-size: 13px;">I agree to usage terms &
+                        <label class="form-label" for="tnc_signup" style="font-size: 12px;">I agree to usage terms &
                             conditions.</label>
                     </div>
-                    <div class="input-group checkbox mb-3">
-                        <span class="btn btn-success rounded signup_action_button" onclick="sign_up()">Register</span>
+                    <div class="submit-button" onclick="sign_up()">
+                        <span class="align-middle">Register</span>
                     </div>
+
 
                     <div class="alert alert-success signup-success-container d-none" role="alert">
                         <div class="text-center">
@@ -203,13 +267,15 @@
                         </div>
                     </div>
                 </div>
-                <p class="px-3 text-center">
-                    <a href="javascript:;" class="show-login" style="text-decoration: underline;">Already have an
-                        account? <strong>Login</strong>
-                    </a>
-                </p>
             </form>
+            <div class="switch-form-container text-right">
+                <span class="show-login">SIGN IN</span>
+            </div>
         </div>
+    </div>
+
+    <div id="spinner-overlay" style="display:none;">
+        <div class="spinner"></div>
     </div>
 </div>
 
@@ -340,9 +406,8 @@
 
     $('#teacher').click(function() {
         $('.class_code_input').addClass('d-none');
-    })
+    });
     $('#student').click(function() {
         $('.class_code_input').removeClass('d-none');
-    })
-
+    });
 </script>

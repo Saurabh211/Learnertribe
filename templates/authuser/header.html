@@ -43,7 +43,7 @@
                         </a>
                         {% else %}
                         <a href="/" class="heading" style="font-size: 1.5rem">
-                            <img src="/{{request.user.institute.profile_image}}" class="img mr-3" alt="LOGO">
+                            <img src="{{request.user.institute.profile_image.url}}" class="img mr-3" alt="LOGO">
                         </a>
                         {% endif %}
                     </div>
@@ -84,7 +84,7 @@
                             {% if not request.user.is_authenticated %}
                                 <img src="{% static 'img/logo/learnertribe_logo.png' %}" class="img mr-3" alt="LOGO">
                             {% else %}
-                                <img src="/{{request.user.institute.profile_image}}" class="img mr-3" alt="LOGO">
+                                <img src="{{request.user.institute.profile_image.url}}" class="img mr-3" alt="LOGO">
                             {% endif %}
                         </div>
                     </div>
