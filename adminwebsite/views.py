@@ -262,11 +262,43 @@ class AssignmentListing(View):
 			return JsonResponse({'message': 'success'})
 
 
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
+class AddTestQuestion(View):
+	def get(self, request , id):
+		test = OnlineTest.objects.get(pk = id)
+		return render(request , 'adminwebsite/add_test_question.html', {'test' : test })
+
+	def post(self, request , id):
+		data = request.POST
+		test = OnlineTest.objects.get(pk=id)
+		TestQuestion.objects.create(testname = test, question = data['question'] , option1 = data['option1'], option2 = data['option2']
+		                            , option3 = data['option3'], option4 = data['option4'], answer = data['answer'],  marks = data['marks'])
+		id = data['testname'].id
+		return redirect('/admin/add_test_question/'+id+'/')
+
+
+
+@method_decorator(login_required(login_url = '/admin/login/'),name = 'dispatch')
+class AddTest(View):
+	def get(self, request):
+		tests = OnlineTest.objects.filter().order_by('-created_at')[:10]
+		classes = ClassRoom.objects.filter(institute = request.user.institute)
+		return render(request , 'adminwebsite/add_test.html', {'tests' : tests, 'classes' : classes})
+
+	def post(self, request):
+		data = request.POST
+		subject = Subject.objects.filter(subject_name = data['subject'] , class_room__institute = request.user.institute,  class_room__class_code = data['class'] )
+		OnlineTest.objects.create(user = request.user, test_subject = subject, testname = data['test_name'], totalmarks =data['totalmarks'], totalquestion = data['totalquestion'])
+		return redirect('learnertribe_admin:add_test')
+
+
+
 @method_decorator(login_required(login_url = '/learnertribe_admin/login/'),name = 'dispatch')
 class SubjectListing(View):
 	def get(self, request, id):
 		subject_list = list(Subject.objects.filter(class_room__pk = id).values())
 		return JsonResponse({'subject_list':subject_list})
+
 
 
 def paginator_class(users_list,page_no,records_per_page = 25):
@@ -278,3 +310,15 @@ def paginator_class(users_list,page_no,records_per_page = 25):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
     return users
+
+
+
+
+class ChooseSubject(View):
+	def get(self, request , code):
+		import pdb;pdb.set_trace()
+		subject = Subject.objects.filter(class_room__id = code)
+		# print(subject)
+		return JsonResponse({"subject" : subject})
+
+

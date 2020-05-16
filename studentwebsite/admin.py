@@ -3,7 +3,7 @@ from studentwebsite.models import *
 
 class InstituteAdmin(admin.ModelAdmin):
     list_display = ('institute_name', 'institute_code', 'student_code','teacher_code','created_at')
-    list_filter=('institute_name','institute_code')
+    # list_filter=('institute_name','institute_code')
 admin.site.register(Institute,InstituteAdmin)
 
 class ClassRoomAdmin(admin.ModelAdmin):

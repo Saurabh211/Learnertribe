@@ -1,3 +1,4 @@
+from django.contrib.postgres.forms import JSONField
 from django.db import models
 from django.conf import settings
 
@@ -112,3 +113,40 @@ class AssignmentResponse(models.Model):
 
     class Meta:
         db_table = "assignment_response_info"
+
+
+class OnlineTest(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    test_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    testname = models.CharField(max_length=40)
+    totalmarks = models.CharField(max_length=25, null=True)
+    totalquestion = models.CharField(max_length=45, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_verified = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "online_test"
+
+
+class TestQuestion(models.Model):
+    testname = models.ForeignKey(OnlineTest, on_delete=models.CASCADE)
+    question = models.CharField(max_length=400)
+    option1 = models.CharField(max_length=200)
+    option2 = models.CharField(max_length=200)
+    option3 = models.CharField(max_length=200)
+    option4 = models.CharField(max_length=200)
+    answer = models.CharField(max_length=25)
+    marks = models.IntegerField()
+
+    class Meta:
+        db_table = "test_questions"
+
+
+class StudentTestResponse(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    student_answer = JSONField()
+    obtainedmarks = models.IntegerField(null=True)
+
+    class Meta:
+        db_table = "student_answer"
+

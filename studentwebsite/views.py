@@ -98,11 +98,11 @@ class SubjectAssignmentsMore(View):
 			assignments = Assignment.objects.filter(assignment_subject__id=subject_id, created_at__date=start_date)
 			assignmentList = []
 			for v in assignments:
-				assignmentList.append({'id':v.id, 'assisment_name':v.assignment_name})
-			status = "Success"
+				assignmentList.append({'id':v.id, 'assisment_name':v.assisment_name})
+			statuss = "Success"
 		except:
-			status = "Error"
-		return JsonResponse({"status": status, 'assignments':assignmentList}, safe=False)
+			statuss = "Error"
+		return JsonResponse({"status": statuss, 'assignments':assignmentList}, safe=False)
 
 class AssignmentDetail(View):
 	def get(self, request, id):

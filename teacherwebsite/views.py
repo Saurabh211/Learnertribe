@@ -9,7 +9,7 @@ from studentwebsite.models import *
 
 @method_decorator(login_required(login_url = '/auth/login/000001/'),name = 'dispatch')
 class TeacherDashbord(View):
-	def get(self, request, *args, **kwargs):
+	def get(self, request):
 		return render(request, "teacherwebsite/dashbord.html")
 
 
@@ -64,6 +64,7 @@ class AddVideos(View):
 
 @method_decorator(login_required(login_url = '/auth/login/000001/'),name = 'dispatch')
 class AddAssignment(View):
+	
 	def get(self, request, id):
 		subject = Subject.objects.get(pk = id)
 		query = request.GET.get('start_date')
@@ -80,4 +81,27 @@ class AddAssignment(View):
 		subject = Subject.objects.get(pk=id)
 		Assignment.objects.create(assignment_subject = subject, description = data['description'], assignment_name = data['assignment_name'], assignment_pdf = assignment_pdf , teacher = request.user)
 		return redirect('/teacher/'+id+'/add_assignment')
+
+
+class ResponseAssignment(View):
+
+	def get(self, request, id):
+		responses = AssignmentResponse.objects.filter(assisment__id = id)
+		return render(request , "teacherwebsite/response_assignment.html" , {'responses' : responses})
+
+
+class Remark(View):
+	def get(self, request, id):
+
+		student = AssignmentResponse.objects.filter(student__id = id)
+		return render(request , "teacherwebsite/remark.html" , {'student' : student[0]})
+
+	def post(self, request, id):
+		data = request.POST
+		instance = AssignmentResponse.objects.get(pk = id)
+		id = instance.assisment.id
+		instance.remark = data.get('remark' , instance.remark)
+		instance.marks = data.get('marks' , instance.marks)
+		instance.save()
+		return redirect('/teacher/'+id+'/assignment_response/')
 
